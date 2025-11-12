@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 Free AI API & Tools - Webinar Bonus</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        body {
+            background: #0a0a0f;
+            color: #e0e0e0;
+            overflow-x: hidden;
+        }
+        
+        /* Background with Unsplash image */
+        .bg-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background-image: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            filter: blur(8px) brightness(0.3);
+        }
+        
+        /* Animated grid background */
+        .grid-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-image: 
+                linear-gradient(rgba(99, 102, 241, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(99, 102, 241, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridMove 20s linear infinite;
+        }
+        
+        @keyframes gridMove {
+            0% { background-position: 0 0; }
+            100% { background-position: 50px 50px; }
+        }
+        
+        /* Mouse glow effect */
+        #mouseGlow {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.3) 0%, rgba(139, 92, 246, 0.2) 25%, transparent 70%);
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            transition: opacity 0.3s;
+            z-index: 1;
+            mix-blend-mode: screen;
+        }
+        
+        /* Glassmorphism cards */
+        .glass-card {
+            background: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .glass-card:hover {
+            background: rgba(17, 24, 39, 0.85);
+            border-color: rgba(99, 102, 241, 0.5);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.3);
+        }
+        
+        /* Glowing text effect */
+        .glow-text {
+            text-shadow: 0 0 20px rgba(99, 102, 241, 0.8),
+                         0 0 40px rgba(139, 92, 246, 0.6),
+                         0 0 60px rgba(167, 139, 250, 0.4);
+        }
+        
+        .glow-border {
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.5),
+                        inset 0 0 20px rgba(99, 102, 241, 0.1);
+        }
+        
+        /* Animated gradient */
+        .gradient-animated {
+            background: linear-gradient(45deg, #6366f1, #8b5cf6, #ec4899, #6366f1);
+            background-size: 300% 300%;
+            animation: gradientShift 8s ease infinite;
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        /* Smooth scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Link styles */
+        .link-glow {
+            color: #818cf8;
+            text-decoration: none;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .link-glow:hover {
+            color: #a5b4fc;
+            text-shadow: 0 0 10px rgba(99, 102, 241, 0.8);
+        }
+        
+        .link-glow::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background: linear-gradient(90deg, #6366f1, #8b5cf6);
+            transition: width 0.3s;
+        }
+        
+        .link-glow:hover::after {
+            width: 100%;
+        }
+        
+        /* Badge styles */
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            background: rgba(99, 102, 241, 0.2);
+            border: 1px solid rgba(99, 102, 241, 0.4);
+        }
+        
+        .badge-gold {
+            background: rgba(251, 191, 36, 0.2);
+            border-color: rgba(251, 191, 36, 0.4);
+            color: #fbbf24;
+        }
+        
+        .badge-silver {
+            background: rgba(156, 163, 175, 0.2);
+            border-color: rgba(156, 163, 175, 0.4);
+            color: #9ca3af;
+        }
+        
+        .badge-bronze {
+            background: rgba(245, 158, 11, 0.2);
+            border-color: rgba(245, 158, 11, 0.4);
+            color: #f59e0b;
+        }
+        
+        /* Navigation */
+        .nav-link {
+            transition: all 0.3s;
+        }
+        
+        .nav-link:hover {
+            transform: scale(1.05);
+        }
+        
+        /* Scroll indicator */
+        .scroll-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #6366f1, #8b5cf6, #ec4899);
+            z-index: 9999;
+            transition: width 0.1s;
+        }
+        
+        /* Stats card animation */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .stat-pulse {
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #1a1a24;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #6366f1, #8b5cf6);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, #818cf8, #a78bfa);
+        }
+    </style>
+</head>
+<body>
+    <!-- Background elements -->
+    <div class="bg-container"></div>
+    <div class="grid-background"></div>
+    <div id="mouseGlow"></div>
+    <div class="scroll-indicator" id="scrollIndicator"></div>
+    
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 glass-card border-b">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="text-2xl font-bold glow-text">🚀 Free AI Resources</div>
+                <div class="hidden md:flex space-x-6">
+                    <a href="#fastest-llm" class="nav-link link-glow">⚡ Fastest LLM</a>
+                    <a href="#providers" class="nav-link link-glow">🤖 Providers</a>
+                    <a href="#cli-tools" class="nav-link link-glow">💻 CLI & Tools</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center px-6 pt-20">
+        <div class="text-center max-w-5xl">
+            <h1 class="text-6xl md:text-8xl font-bold mb-6 glow-text gradient-animated bg-clip-text text-transparent">
+                Free AI API & Tools
+            </h1>
+            <p class="text-xl md:text-2xl mb-8 text-gray-300">
+                Panduan Lengkap LLM API, Tools, dan Frameworks - Bonus Webinar 2024
+            </p>
+            <div class="flex flex-wrap justify-center gap-4 mb-12">
+                <span class="badge badge-gold">⚡ 100+ Free Providers</span>
+                <span class="badge badge-silver">🚀 3,000 tokens/second</span>
+                <span class="badge badge-bronze">💎 CLI & Orchestration</span>
+            </div>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="#fastest-llm" class="px-8 py-4 gradient-animated rounded-lg font-semibold text-white glow-border hover:scale-105 transition">
+                    Mulai Explore
+                </a>
+                <a href="https://github.com" target="_blank" class="px-8 py-4 glass-card rounded-lg font-semibold hover:scale-105 transition">
+                    View on GitHub
+                </a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-20 relative z-10">
+        
+        <!-- Section 1: Fastest LLM API -->
+        <section id="fastest-llm" class="mb-32">
+            <h2 class="text-5xl font-bold mb-12 glow-text text-center">⚡ FASTEST FREE LLM API</h2>
+            
+            <!-- Top 3 -->
+            <div class="grid md:grid-cols-3 gap-8 mb-16">
+                <!-- #1 Cerebras -->
+                <div class="glass-card rounded-2xl p-8 glow-border">
+                    <div class="text-6xl mb-4">🥇</div>
+                    <h3 class="text-3xl font-bold mb-4 text-yellow-400">Cerebras Inference</h3>
+                    <div class="text-5xl font-bold mb-4 glow-text">3,000 t/s</div>
+                    <p class="text-gray-300 mb-6">Tercepat di dunia! 16-70x faster than GPUs</p>
+                    <div class="space-y-2 mb-6">
+                        <div class="flex items-center">
+                            <span class="text-green-400 mr-2">✅</span>
+                            <span>FREE with generous limits</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-green-400 mr-2">⚡</span>
+                            <span>Real-time performance</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-green-400 mr-2">🔌</span>
+                            <span>OpenAI-compatible API</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-green-400 mr-2">💰</span>
+                            <span>$0.10/M tokens (8B)</span>
+                        </div>
+                    </div>
+                    <a href="https://www.cerebras.ai/inference" target="_blank" class="block w-full text-center px-6 py-3 gradient-animated rounded-lg font-semibold text-white hover:scale-105 transition">
+                        Try Cerebras →
+                    </a>
+                </div>
+                
+                <!-- #2 Groq -->
+                <div class="glass-card rounded-2xl p-8 glow-border">
+                    <div class="text-6xl mb-4">🥈</div>
+                    <h3 class="text-3xl font-bold mb-4 text-gray-300">Groq</h3>
+                    <div class="text-5xl font-bold mb-4 glow-text">1,566 t/s</div>
+                    <p class="text-gray-300 mb-6">Super fast & generous FREE tier</p>
+                    <div class="space-y-2 mb-6">
+                        <div class="flex items-center">
+                            <span class="text-green-400 mr-2">✅</span>
+                            <span>100% FREE forever</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-green-400 mr-2">📦</span>
+                            <span>14,400 requests/day</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-green-400 mr-2">🎤</span>
+                            <span>Free Whisper STT</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-green-400 mr-2">⚡</span>
+                            <span>0.22s First Token</span>
+                        </div>
+                    </div>
+                    <a href="https://groq.com/" target="_blank" class="block w-full text-center px-6 py-3 gradient-animated rounded-lg font-semibold text-white hover:scale-105 transition">
+                        Try Groq →
+                    </a>
+                </div>
+                
+                <!-- #3 Google AI Studio -->
+                <div class="glass-card rounded-2xl p-8 glow-border">
+                    <div class="text-6xl mb-4">🥉</div>
+                    <h3 class="text-3xl font-bold mb-4 text-orange-400">Google AI Studio</h3>
+                    <div class="text-4xl font-bold mb-4 glow-text">1M t/min</div>
+                    <p class="text-gray-300 mb-6">High volume processing, FREE forever</p>
+                    <div class="space-y-2 mb-6">
+                        <div class="flex items-center">
+                            <span class="text-green-400 mr-2">✅</span>
+                            <span>FREE forever</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-green-400 mr-2">💰</span>
+                            <span>$300 free credits</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-green-400 mr-2">🌍</span>
+                            <span>Multimodal support</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-green-400 mr-2">💼</span>
+                            <span>Commercial use OK</span>
+                        </div>
+                    </div>
+                    <a href="https://aistudio.google.com/" target="_blank" class="block w-full text-center px-6 py-3 gradient-animated rounded-lg font-semibold text-white hover:scale-105 transition">
+                        Try Google AI →
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Speed Comparison Table -->
+            <div class="glass-card rounded-2xl p-8 mb-16">
+                <h3 class="text-3xl font-bold mb-6 glow-text">📊 Speed Comparison</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead>
+                            <tr class="border-b border-indigo-500/30">
+                                <th class="py-4 px-6">Provider</th>
+                                <th class="py-4 px-6">Speed (t/s)</th>
+                                <th class="py-4 px-6">Free Tier</th>
+                                <th class="py-4 px-6">Daily Limit</th>
+                                <th class="py-4 px-6">Credit Card</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b border-indigo-500/10 hover:bg-indigo-500/10 transition">
+                                <td class="py-4 px-6 font-semibold text-yellow-400">Cerebras</td>
+                                <td class="py-4 px-6 font-bold text-2xl text-green-400">3,000</td>
+                                <td class="py-4 px-6"><span class="text-green-400">✅</span> Yes</td>
+                                <td class="py-4 px-6">High</td>
+                                <td class="py-4 px-6"><span class="text-red-400">❌</span> No</td>
+                            </tr>
+                            <tr class="border-b border-indigo-500/10 hover:bg-indigo-500/10 transition">
+                                <td class="py-4 px-6 font-semibold">Groq</td>
+                                <td class="py-4 px-6 font-bold text-2xl text-green-400">1,566</td>
+                                <td class="py-4 px-6"><span class="text-green-400">✅</span> Yes</td>
+                                <td class="py-4 px-6">14,400 req</td>
+                                <td class="py-4 px-6"><span class="text-red-400">❌</span> No</td>
+                            </tr>
+                            <tr class="border-b border-indigo-500/10 hover:bg-indigo-500/10 transition">
+                                <td class="py-4 px-6 font-semibold">Google AI Studio</td>
+                                <td class="py-4 px-6 font-bold text-xl text-green-400">1M t/min</td>
+                                <td class="py-4 px-6"><span class="text-green-400">✅</span> Yes</td>
+                                <td class="py-4 px-6">Very High</td>
+                                <td class="py-4 px-6"><span class="text-red-400">❌</span> No</td>
+                            </tr>
+                            <tr class="border-b border-indigo-500/10 hover:bg-indigo-500/10 transition">
+                                <td class="py-4 px-6 font-semibold">Together AI</td>
+                                <td class="py-4 px-6 font-bold text-green-400">134</td>
+                                <td class="py-4 px-6"><span class="text-yellow-400">💰</span> $25 credit</td>
+                                <td class="py-4 px-6">Good</td>
+                                <td class="py-4 px-6"><span class="text-red-400">❌</span> No</td>
+                            </tr>
+                            <tr class="border-b border-indigo-500/10 hover:bg-indigo-500/10 transition">
+                                <td class="py-4 px-6 font-semibold">DeepInfra</td>
+                                <td class="py-4 px-6 font-bold text-green-400">13</td>
+                                <td class="py-4 px-6"><span class="text-yellow-400">💰</span> Paid</td>
+                                <td class="py-4 px-6">High</td>
+                                <td class="py-4 px-6"><span class="text-green-400">✅</span> Yes</td>
+                            </tr>
+                            <tr class="border-b border-indigo-500/10 hover:bg-indigo-500/10 transition">
+                                <td class="py-4 px-6 font-semibold">OpenRouter</td>
+                                <td class="py-4 px-6">Varies</td>
+                                <td class="py-4 px-6"><span class="text-green-400">✅</span> Yes</td>
+                                <td class="py-4 px-6">200 req</td>
+                                <td class="py-4 px-6"><span class="text-red-400">❌</span> No</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- More Providers -->
+            <h3 class="text-3xl font-bold mb-8 glow-text">🔥 More Fast & Free Options</h3>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="glass-card rounded-xl p-6">
+                    <h4 class="text-xl font-bold mb-2">Together AI</h4>
+                    <p class="text-sm text-gray-400 mb-4">134 t/s + $25 Free Credits</p>
+                    <a href="https://www.together.ai/" target="_blank" class="link-glow">Visit →</a>
+                </div>
+                <div class="glass-card rounded-xl p-6">
+                    <h4 class="text-xl font-bold mb-2">Fireworks AI</h4>
+                    <p class="text-sm text-gray-400 mb-4">Fast inference + Trial credits</p>
+                    <a href="https://fireworks.ai/" target="_blank" class="link-glow">Visit →</a>
+                </div>
+                <div class="glass-card rounded-xl p-6">
+                    <h4 class="text-xl font-bold mb-2">OpenRouter</h4>
+                    <p class="text-sm text-gray-400 mb-4">70+ Free Models, 200 req/day</p>
+                    <a href="https://openrouter.ai/" target="_blank" class="link-glow">Visit →</a>
+                </div>
+                <div class="glass-card rounded-xl p-6">
+                    <h4 class="text-xl font-bold mb-2">Hugging Face</h4>
+                    <p class="text-sm text-gray-400 mb-4">1,000 req/day, 300+ models</p>
+                    <a href="https://huggingface.co/" target="_blank" class="link-glow">Visit →</a>
+                </div>
+                <div class="glass-card rounded-xl p-6">
+                    <h4 class="text-xl font-bold mb-2">Mistral AI</h4>
+                    <p class="text-sm text-gray-400 mb-4">Fast inference, FREE tier</p>
+                    <a href="https://console.mistral.ai/" target="_blank" class="link-glow">Visit →</a>
+                </div>
+                <div class="glass-card rounded-xl p-6">
+                    <h4 class="text-xl font-bold mb-2">Cohere</h4>
+                    <p class="text-sm text-gray-400 mb-4">FREE trial keys, Command R</p>
+                    <a href="https://cohere.com/" target="_blank" class="link-glow">Visit →</a>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Section 2: Free AI API Providers -->
+        <section id="providers" class="mb-32">
+            <h2 class="text-5xl font-bold mb-12 glow-text text-center">🤖 100+ Free AI API Providers</h2>
+            
+            <!-- Category tabs -->
+            <div class="flex flex-wrap justify-center gap-4 mb-12">
+                <button onclick="showCategory('llm')" class="px-6 py-3 glass-card rounded-lg font-semibold hover:scale-105 transition category-btn active" data-category="llm">
+                    🤖 LLM (38)
+                </button>
+                <button onclick="showCategory('vlm')" class="px-6 py-3 glass-card rounded-lg font-semibold hover:scale-105 transition category-btn" data-category="vlm">
+                    👁️ VLM (10)
+                </button>
+                <button onclick="showCategory('tts')" class="px-6 py-3 glass-card rounded-lg font-semibold hover:scale-105 transition category-btn" data-category="tts">
+                    🔊 TTS (15)
+                </button>
+                <button onclick="showCategory('t2i')" class="px-6 py-3 glass-card rounded-lg font-semibold hover:scale-105 transition category-btn" data-category="t2i">
+                    🎨 T2I (26)
+                </button>
+                <button onclick="showCategory('stt')" class="px-6 py-3 glass-card rounded-lg font-semibold hover:scale-105 transition category-btn" data-category="stt">
+                    🎙️ STT (11)
+                </button>
+            </div>
+            
+            <!-- LLM Category -->
+            <div id="category-llm" class="category-content">
+                <h3 class="text-3xl font-bold mb-8 glow-text">🤖 Large Language Models (LLM)</h3>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Google AI Studio -->
+                    <div class="glass-card rounded-xl p-6">
+                        <div class="flex items-start justify-between mb-4">
+                            <h4 class="text-xl font-bold">Google AI Studio</h4>
+                            <span class="badge badge-gold">⭐ TOP</span>
+                        </div>
+                        <p class="text-sm text-gray-400 mb-4">$300 credits + 1M tokens/min FREE</p>
+                        <div class="space-y-2 mb-4 text-sm">
+                            <div><span class="text-indigo-400">Models:</span> Gemini 1.5 Flash, Pro</div>
+                            <div><span class="text-green-400">✅</span> Commercial use allowed</div>
+                        </div>
+                        <a href="https://aistudio.google.com/" target="_blank" class="link-glow text-sm">Try Now →</a>
+                    </div>
+                    
+                    <!-- OpenRouter -->
+                    <div class="glass-card rounded-xl p-6">
+                        <div class="flex items-start justify-between mb-4">
+                            <h4 class="text-xl font-bold">OpenRouter</h4>
+                            <span class="badge">400+ Models</span>
+                        </div>
+                        <p class="text-sm text-gray-400 mb-4">$1 signup + 20 req/min, 200/day</p>
+                        <div class="space-y-2 mb-4 text-sm">
+                            <div><span class="text-indigo-400">Models:</span> GPT-4, Claude, Llama, Gemma</div>
+                            <div><span class="text-green-400">✅</span> Unified API</div>
+                        </div>
+                        <a href="https://openrouter.ai/" target="_blank" class="link-glow text-sm">Try Now →</a>
+                    </div>
+                    
+                    <!-- Together AI -->
+                    <div class="glass-card rounded-xl p-6">
+                        <div class="flex items-start justify-between mb-4">
+                            <h4 class="text-xl font-bold">Together AI</h4>
+                            <span class="badge badge-gold">$25</span>
+                        </div>
+                        <p class="text-sm text-gray-400 mb-4">$25 free credits untuk new users</p>
+                        <div class="space-y-2 mb-4 text-sm">
+                            <div><span class="text-indigo-400">Models:</span> Llama 3.3, Qwen, Mixtral</div>
+                            <div><span class="text-green-400">✅</span> Multimodal</div>
+                        </div>
+                        <a href="https://www.together.ai/" target="_blank" class="link-glow text-sm">Try Now →</a>
+                    </div>
+                    
+                    <!-- Anthropic Claude -->
+                    <div class="glass-card rounded-xl p-6">
+                        <h4 class="text-xl font-bold mb-2">Anthropic Claude</h4>
+                        <p class="text-sm text-gray-400 mb-4">$5 credits (14 days)</p>
+                        <div class="space-y-2 mb-4 text-sm">
+                            <div><span class="text-indigo-400">Models:</span> Claude Opus 4, Sonnet 4</div>
+                            <div><span class="text-yellow-400">⚠️</span> Phone verification required</div>
+                        </div>
+                        <a href="https://console.anthropic.com/" target="_blank" class="link-glow text-sm">Try Now →</a>
+                    </div>
+                    
+                    <!-- Cohere -->
+                    <div class="glass-card rounded-xl p-6">
+                        <h4 class="text-xl font-bold mb-2">Cohere</h4>
+                        <p class="text-sm text-gray-400 mb-4">FREE trial keys with rate limit</p>
+                        <div class="space-y-2 mb-4 text-sm">
+                            <div><span class="text-indigo-400">Models:</span> Command R series</div>
+                            <div><span class="text-green-400">✅</span> Free prototyping tier</div>
+                        </div>
+                        <a href="https://cohere.com/" target="_blank" class="link-glow text-sm">Try Now →</a>
+                    </div>
+                    
+                    <!-- Hugging Face -->
+                    <div class="glass-card rounded-xl p-6">
+                        <h4 class="text-xl font-bold mb-2">Hugging Face</h4>
+                        <p class="text-sm text-gray-400 mb-4">1,000 req/day for models <10GB</p>
+                        <div class="space-y-2 mb-4 text-sm">
+                            <div><span class="text-indigo-400">Models:</span> 300+ open-source</div>
+                            <div><span class="text-green-400">✅</span> Community-driven</div>
+                        </div>
+                        <a href="https://huggingface.co/" target="_blank" class="link-glow text-sm">Try Now →</a>
+                    </div>
+                    
+                    <!-- Mistral AI -->
+                    <div class="glass-card rounded-xl p-6">
+                        <h4 class="text-xl font-bold mb-2">Mistral AI</h4>
+                        <p class="text-sm text-gray-400 mb-4">FREE tier (phone verify)</p>
+                        <div class="space-y-2 mb-4 text-sm">
+                            <div><span class="text-indigo-400">Models:</span> Mistral, Codestral</div>
+                            <div><span class="text-green-400">✅</span> Code generation</div>
+                        </div>
+                        <a href="https://console.mistral.ai/" target="_blank" class="link-glow text-sm">Try Now →</a>
+                    </div>
+                    
+                    <!-- GitHub Models -->
+                    <div class="glass-card rounded-xl p-6">
+                        <h4 class="text-xl font-bold mb-2">GitHub Models</h4>
+                        <p class="text-sm text-gray-400 mb-4">FREE for prototyping</p>
+                        <div class="space-y-2 mb-4 text-sm">
+                            <div><span class="text-indigo-400">Models:</span> Various hosted models</div>
+                            <div><span class="text-green-400">✅</span> GitHub integration</div>
+                        </div>
+                        <a href="https://github.com/marketplace/models" target="_blank" class="link-glow text-sm">Try Now →</a>
+                    </div>
+                    
+                    <!-- Cloudflare Workers AI -->
+                    <div class="glass-card rounded-xl p-6">
+                        <h4 class="text-xl font-bold mb-2">Cloudflare Workers AI</h4>
+                        <p class="text-sm text-gray-400 mb-4">FREE tier available</p>
+                        <div class="space-y-2 mb-4 text-sm">
+                            <div><span class="text-indigo-400">Models:</span> Llama 2, Llama 3</div>
+                            <div><span class="text-green-400">✅</span> Edge deployment</div>
+                        </div>
+                        <a href="https://developers.cloudflare.com/workers-ai/" target="_blank" class="link-glow text-sm">Try Now →</a>
+                    </div>
+                    
+                    <!-- OpenAI API -->
+                    <div class="glass-card rounded-xl p-6">
+                        <h4 class="text-xl font-bold mb-2">OpenAI API</h4>
+                        <p class="text-sm text-gray-400 mb-4">$5 credits (varies)</p>
+                        <div class="space-y-2 mb-4 text-sm">
+                            <div><span class="text-indigo-400">Models:</span> GPT-4, GPT-3.5, GPT-4o</div>
+                            <div><span class="text-green-400">✅</span> Industry leader</div>
+                        </div>
+                        <a href="https://platform.openai.com/" target="_blank" class="link-glow text-sm">Try Now →</a>
+                    </div>
+                    
+                    <!-- DeepSeek -->
+                    <div class="glass-card rounded-xl p-6">
+                        <h4 class="text-xl font-bold mb-2">DeepSeek</h4>
+                        <p class="text-sm text-gray-400 mb-4">Competitive pricing</p>
+                        <div class="space-y-2 mb-4 text-sm">
+                            <div><span class="text-indigo-400">Models:</span> DeepSeek V3</div>
+                            <div><span class="text-green-400">✅</span> High performance</div>
+                        </div>
+                        <a href="https://www.deepseek.com/" target="_blank" class="link-glow text-sm">Try Now →</a>
+                    </div>
+                    
+                    <!-- Replicate -->
+                    <div class="glass-card rounded-xl p-6">
+                        <h4 class="text-xl font-bold mb-2">Replicate</h4>
+                        <p class="text-sm text-gray-400 mb-4">Credits for new users</p>
+                        <div class="space-y-2 mb-4 text-sm">
+                            <div><span class="text-indigo-400">Models:</span> Various open-source</div>
+                            <div><span class="text-green-400">✅</span> Easy deployment</div>
+                        </div>
+                        <a href="https://replicate.com/" target="_blank" class="link-glow text-sm">Try Now →</a>
+                    </div>
+                    
+                    <!-- Puter.js -->
+                    <div class="glass-card rounded-xl p-6">
+                        <div class="flex items-start justify-between mb-4">
+                            <h4 class="text-xl font-bold">Puter.js</h4>
+                            <span class="badge badge-gold">No API Key</span>
+                        </div>
+                        <p class="text-sm text-gray-400 mb-4">FREE unlimited (user-pays model)</p>
+                        <div class="space-y-2 mb-4 text-sm">
+                            <div><span class="text-indigo-400">Models:</span> Multiple providers</div>
+                            <div><span class="text-green-400">✅</span> No signup required</div>
+                        </div>
+                        <a href="https://puter.com/" target="_blank" class="link-glow text-sm">Try Now →</a>
+                    </div>
+                    
+                    <!-- CometAPI -->
+                    <div class="glass-card rounded-xl p-6">
+                        <div class="flex items-start justify-between mb-4">
+                            <h4 class="text-xl font-bold">CometAPI</h4>
+                            <span class="badge badge-gold">1M tokens</span>
+                        </div>
+                        <p class="text-sm text-gray-400 mb-4">1M tokens FREE (limited time)</p>
+                        <div class="space-y-2 mb-4 text-sm">
+                            <div><span class="text-indigo-400">Models:</span> 500+ AI models</div>
+                            <div><span class="text-green-400">✅</span> Unified API</div>
+                        </div>
+                        <a href="https://www.cometapi.com/" target="_blank" class="link-glow text-sm">Try Now →</a>
+                    </div>
+                    
+                    <div class="glass-card rounded-xl p-6 flex items-center justify-center">
+                        <div class="text-center">
+                            <p class="text-2xl mb-2">+ 24 More</p>
+                            <p class="text-sm text-gray-400">LLM Providers Available</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- VLM Category -->
+            <div id="category-vlm" class="category-content hidden">
+                <h3 class="text-3xl font-bold mb-8 glow-text">👁️ Vision Language Models (VLM)</h3>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="glass-card rounded-xl p-6">
+                        <h4 class="text-xl font-bold mb-2">Together AI - Llama Vision</h4>
+                        <p class="text-sm text-gray-400 mb-4">Llama 3.2 11B Vision FREE</p>
+                        <a href="https://www.together.ai/" target="_blank" class="link-glow text-sm">Try Now →</a>
+                    </div>
+                    <div class="glass-card rounded-xl p-6">
+                        <h4 class="text-xl font-bold mb-2">Google AI Studio (Gemini Vision)</h4>
+                        <p class="text-sm text-gray-400 mb-4">$300 credits + multimodal</p>
+                        <a href="https://aistudio.google.com/" target="_blank" class="link-glow text-sm">Try Now →</a>
+                    </div>
+                    <div class="glass-card rounded-xl p-6">
+                        <h4 class="text-xl font-bold mb-2">OpenRouter (VLM Models)</h4>
+                        <p class="text-sm text-gray-400 mb-4">GPT-4 Vision, Claude Vision</p>
+                        <a href="https://openrouter.ai/" target="_blank" class="link-glow text-sm">Try Now →</a>
+                    </div>
+                    <div class="glass-card rounded-xl p-6">
+                        <h4 class="text-xl font-bold mb-2">OpenAI GPT-4 Vision</h4>
+                        <p class="text-sm text-gray-400 mb-4">$5 credits, advanced vision</p>
+                        <a href="https://platform.openai.com/" target="_blank" class="link-glow text-sm">Try Now →</a>
+                    </div>
+                    <div class="glass-card rounded-xl p-6">
+                        <h4 class="text-xl font-bold mb-2">Anthropic Claude Vision</h4>
+                        <p class="text-sm text-gray-400 mb-4">$5 credits, high accuracy</p>
+                        <a href="https://console.anthropic.com/" target="_blank" class="link-glow text-sm">Try Now →</a>
+                    </div>
+                    <div class="glass-card rounded-xl p-6">
+                        <h4 class="text-xl font-bold mb-2">Hugging Face (VLM)</h4>
+                        <p class="text-sm text-gray-400 mb-4">BLIP, LLaVA, ViLT models</p>
+                        <a href="https://huggingface.co/" target="_blank" class="link-glow text-sm">Try Now →</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- TTS Category -->
+            <div id="category-tts" class="category-content hidden">
+                <h3 class="text-3xl font-bold mb-8 glow-text">🔊 Text-to-Speech (TTS)</h3>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="glass-card rounded-xl p-6">
+                        <div class="flex items-start justify-between mb-4">
+                            <h4 class="text-xl font-bold">ElevenLabs</h4>
+                            <span class="badge badge-gold">⭐ TOP</span>
+                        </div>
+                        <p class="text-sm text-gray-400 mb-4">10,000 credits/month FREE</p>
+                        <div class="space-y-2 mb-4 text-sm">
+                            <div><span class="text-green-400">✅</span> Voice cloning</div>
+                            <div><span class="text-green-400">✅</span> Emotional speech</div>
+                            <div><span class="text-green-400">✅</span> 70+ languages</div>
+                        </div>
+                        <a href="https://elevenlabs.io/" target="_blank" class="link-glow text-sm">Try Now →</a>
+                    </div>
+                    <div class="glass-card rounded-xl p-6">
+                        <h4 class="text-xl font-bold mb-2">Amazon Polly</h4>
+                        <p class="text-sm text-gray-400 mb-4">5M characters/month (12 months)</p>
+                        <div class="space-y-2 mb-4 text-sm">
+                            <div><span class="text-green-400">✅</span> 40+ languages</div>
+                            <div><span class="text-green-400">✅</span> Neural voices</div>
+                        </div>
+                        <a href="https://aws.amazon.com/polly/" target="_blank" class="link-glow text-sm">Try Now →</a>
+                    </div>
+                    <div class="glass-card rounded-xl p-6">
+                        <h4 class="text-xl font-bold mb-2">Google Cloud TTS</h4>
+                        <p class="text-sm text-gray-400 mb-4">$300 credits + 4M chars/month</p>
+                        <div class="space-y-2 mb-4 text-sm">
+                            <div><span class="text-green-400">✅</span> WaveNet voices</div>
+                            <div><span class="text-green-400">✅</span> 40+ languages</div>
+                        </div>
+                        <a href="https://cloud.google.com/text-to-speech" target="_blank" class="link-glow text-sm">Try Now →</a>
+                    </div>
+                    <div class="glass-card rounded-xl p-6">
+                        <h4 class="text-xl font-bold mb-2">Microsoft Azure TTS</h4>
+                        <p class="text-sm text-gray-400 mb-4">5M characters/month (12 months)</p>
+                        <a href="https://azure.microsoft.com/" target="_blank" class="link-glow text-sm">Try Now →</a>
+                    </div>
+                    <div class="glass-card rounded-xl p-6">
+                        <h4 class="text-xl font-bold mb-2">Play.ht</h4>
+                        <p class="text-sm text-gray-400 mb-4">12,500 characters FREE</p>
+                        <a href="https://play.ht/" target="_blank" class="link-glow text-sm">Try Now →</a>
+                    </div>
+                    <div class="glass-card rounded-xl p-6">
+                        <h4 class="text-xl font-bold mb-2">Unreal Speech</h4>
+                        <p class="text-sm text-gray-400 mb-4">250,000 characters FREE</p>
+                        <a href="https://unrealspeech.com/" target="_blank" class="link-glow text-sm">Try Now →</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- T2I Category -->
+            <div id="category-t2i" class="category-content hidden">
+                <h3 class="text-3xl font-bold mb-8 glow-text">🎨 Text-to-Image (T2I)</h3>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="glass-card rounded-xl p-6">
+                        <div class="flex items-start justify-between mb-4">
+                            <h4 class="text-xl font-bold">Stable Diffusion</h4>
+                            <span class="badge badge-gold">Open Source</span>
+                        </div>
+                        <p class="text-sm text-gray-400 mb-4">FREE (self-hosted) or $0.005/image</p>
+                        <div class="space-y-2 mb-4 text-sm">
+                            <div><span class="text-green-400">✅</span> Open-source</div>
+                            <div><span class="text-green-400">✅</span> Commercial use</div>
+                        </div>
+                        <a href="https://stability.ai/" target="_blank" class="link-glow text-sm">Try Now →</a>
+                    </div>
+                    <div class="glass-card rounded-xl p-6">
+                        <h4 class="text-xl font-bold mb-2">DALL-E 3 (Bing)</h4>
+                        <p class="text-sm text-gray-400 mb-4">15 images/day FREE</p>
+                        <div class="space-y-2 mb-4 text-sm">
+                            <div><span class="text-green-400">✅</span> Microsoft account</div>
+                            <div><span class="text-green-400">✅</span> High quality</div>
+                        </div>
+                        <a href="https://www.bing.com/create" target="_blank" class="link-glow text-sm">Try Now →</a>
+                    </div>
+                    <div class="glass-card rounded-xl p-6">
+                        <h4 class="text-xl font-bold mb-2">Leonardo.ai</h4>
+                        <p class="text-sm text-gray-400 mb-4">150 credits/day FREE</p>
+                        <a href="https://leonardo.ai/" target="_blank" class="link-glow text-sm">Try Now →</a>
+                    </div>
+                    <div class="glass-card rounded-xl p-6">
+                        <h4 class="text-xl font-bold mb-2">Adobe Firefly</h4>
+                        <p class="text-sm text-gray-400 mb-4">25 credits/month FREE</p>
+                        <a href="https://firefly.adobe.com/" target="_blank" class="link-glow text-sm">Try Now →</a>
+                    </div>
+                    <div class="glass-card rounded-xl p-6">
+                        <h4 class="text-xl font-bold mb-2">Playground AI</h4>
+                        <p class="text-sm text-gray-400 mb-4">1000 images/day FREE</p>
+                        <a href="https://playgroundai.com/" target="_blank" class="link-glow text-sm">Try Now →</a>
+                    </div>
+                    <div class="glass-card rounded-xl p-6">
+                        <h4 class="text-xl font-bold mb-2">Replicate (FLUX/SD)</h4>
+                        <p class="text-sm text-gray-400 mb-4">$0.007/image, 3 sec generation</p>
+                        <a href="https://replicate.com/" target="_blank" class="link-glow text-sm">Try Now →</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- STT Category -->
+            <div id="category-stt" class="category-content hidden">
+                <h3 class="text-3xl font-bold mb-8 glow-text">🎙️ Speech-to-Text (STT)</h3>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="glass-card rounded-xl p-6">
+                        <h4 class="text-xl font-bold mb-2">OpenAI Whisper API</h4>
+                        <p class="text-sm text-gray-400 mb-4">$0.006/min + $5 credits</p>
+                        <div class="space-y-2 mb-4 text-sm">
+                            <div><span class="text-green-400">✅</span> 97 languages</div>
+                            <div><span class="text-green-400">✅</span> High accuracy</div>
+                        </div>
+                        <a href="https://platform.openai.com/" target="_blank" class="link-glow text-sm">Try Now →</a>
+                    </div>
+                    <div class="glass-card rounded-xl p-6">
+                        <h4 class="text-xl font-bold mb-2">Google Cloud STT</h4>
+                        <p class="text-sm text-gray-400 mb-4">$300 credits + Chirp 3 model</p>
+                        <a href="https://cloud.google.com/speech-to-text" target="_blank" class="link-glow text-sm">Try Now →</a>
+                    </div>
+                    <div class="glass-card rounded-xl p-6">
+                        <h4 class="text-xl font-bold mb-2">Amazon Transcribe</h4>
+                        <p class="text-sm text-gray-400 mb-4">60 min/month (12 months)</p>
+                        <a href="https://aws.amazon.com/transcribe/" target="_blank" class="link-glow text-sm">Try Now →</a>
+                    </div>
+                    <div class="glass-card rounded-xl p-6">
+                        <h4 class="text-xl font-bold mb-2">AssemblyAI</h4>
+                        <p class="text-sm text-gray-400 mb-4">Trial credits available</p>
+                        <a href="https://www.assemblyai.com/" target="_blank" class="link-glow text-sm">Try Now →</a>
+                    </div>
+                    <div class="glass-card rounded-xl p-6">
+                        <h4 class="text-xl font-bold mb-2">Deepgram</h4>
+                        <p class="text-sm text-gray-400 mb-4">Trial credits, fast & accurate</p>
+                        <a href="https://deepgram.com/" target="_blank" class="link-glow text-sm">Try Now →</a>
+                    </div>
+                    <div class="glass-card rounded-xl p-6">
+                        <h4 class="text-xl font-bold mb-2">Groq Whisper</h4>
+                        <p class="text-sm text-gray-400 mb-4">7,200 audio-sec/min FREE</p>
+                        <a href="https://groq.com/" target="_blank" class="link-glow text-sm">Try Now →</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Section 3: CLI Tools & Orchestration -->
+        <section id="cli-tools" class="mb-32">
+            <h2 class="text-5xl font-bold mb-12 glow-text text-center">💻 CLI Tools, Orchestration & Frameworks</h2>
+            
+            <!-- Sub-categories -->
+            <div class="flex flex-wrap justify-center gap-4 mb-12">
+                <button onclick="showSubCategory('cli')" class="px-6 py-3 glass-card rounded-lg font-semibold hover:scale-105 transition sub-category-btn active" data-sub="cli">
+                    💻 CLI Tools (15)
+                </button>
+                <button onclick="showSubCategory('orchestration')" class="px-6 py-3 glass-card rounded-lg font-semibold hover:scale-105 transition sub-category-btn" data-sub="orchestration">
+                    🔧 Orchestration (10)
+                </button>
+                <button onclick="showSubCategory('agents')" class="px-6 py-3 glass-card rounded-lg font-semibold hover:scale-105 transition sub-category-btn" data-sub="agents">
+                    🤖 AI Agents (12)
+                </button>
+                <button onclick="showSubCategory('rag')" class="px-6 py-3 glass-card rounded-lg font-semibold hover:scale-105 transition sub-category-btn" data-sub="rag">
+                    🔍 RAG (13)
+                </button>
+                <button onclick="showSubCategory('local')" class="px-6 py-3 glass-card rounded-lg font-semibold hover:scale-105 transition sub-category-btn" data-sub="local">
+                    🏠 Local LLM (16)
+                </button>
+            </div>
+            
+            <!-- CLI Tools -->
+            <div id="sub-cli" class="sub-category-content">
+                <h3 class="text-3xl font-bold mb-8 glow-text">💻 Free CLI Tools untuk LLM</h3>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="glass-card rounded-xl p-6">
+                        <h4 class="text-xl font-bold mb-2">llm</h4>
+                        <p class="text-sm text-gray-400 mb-4">by Simon Willison - Python CLI</p>
+                        <div class="space-y-2 mb-4 text-sm">
+                            <div><span class="text-indigo-400">License:</span> Apache-2.0</div>
+                            <div><span class="text-green-400">✅</span> SQLite storage</div>
+                            <div><span class="text-green-400">✅</span> Embeddings support</div>
+                        </div>
+                        <a href="https://github.com/simonw/llm" target="_blank" class="link-glow text-sm">View on GitHub →</a>
+                    </div>
+                    
+                    <div class="glass-card rounded-xl p-6">
+                        <div class="flex items-start justify-between mb-4">
+                            <h4 class="text-xl font-bold">aichat</h4>
+                            <span class="badge badge-gold">8.6k ⭐</span>
+                        </div>
+                        <p class="text-sm text-gray-400 mb-4">Rust - All-in-one LLM CLI tool</p>
+                        <div class="space-y-2 mb-4 text-sm">
+                            <div><span class="text-green-400">✅</span> Shell Assistant</div>
+                            <div><span class="text-green-400">✅</span> RAG support</div>
+                            <div><span class="text-green-400">✅</span> AI Tools & Agents</div>
+                        </div>
+                        <a href="https://github.com/sigoden/aichat" target="_blank" class="link-glow text-sm">View on GitHub →</a>
+                    </div>
+                    
+                    <div class="glass-card rounded-xl p-6">
+                        <h4 class="text-xl font-bold mb-2">gpt-cli</h4>
+                        <p class="text-sm text-gray-400 mb-4">Python - ChatGPT, Claude, Bard</p>
+                        <div class="space-y-2 mb-4 text-sm">
+                            <div><span class="text-green-400">✅</span> Extended Thinking Mode</div>
+                            <div><span class="text-green-400">✅</span> Usage tracking</div>
+                        </div>
+                        <a href="https://github.com/kharvd/gpt-cli" target="_blank" class="link-glow text-sm">View on GitHub →</a>
+                    </div>
+                    
+                    <div class="glass-card rounded-xl p-6">
+                        <h4 class="text-xl font-bold mb-2">HermesCLI</h4>
+                        <p class="text-sm text-gray-400 mb-4">Multi-LLM with media inputs</p>
+                        <div class="space-y-2 mb-4 text-sm">
+                            <div><span class="text-green-400">✅</span> Images, audio, video</div>
+                            <div><span class="text-green-400">✅</span> PDF support</div>
+                        </div>
+                        <a href="https://github.com/kostard/hermescli" target="_blank" class="link-glow text-sm">View on GitHub →</a>
+                    </div>
+                    
+                    <div class="glass-card rounded-xl p-6">
+                        <h4 class="text-xl font-bold mb-2">Open Interpreter</h4>
+                        <p class="text-sm text-gray-400 mb-4">Natural language for computers</p>
+                        <div class="space-y-2 mb-4 text-sm">
+                            <div><span class="text-green-400">✅</span> Execute code</div>
+                            <div><span class="text-indigo-400">License:</span> AGPL-3.0</div>
+                        </div>
+                        <a href="https://github.com/openinterpreter/open-interpreter" target="_blank" class="link-glow text-sm">View on GitHub →</a>
+                    </div>
+                    
+                    <div class="glass-card rounded-xl p-6">
+                        <h4 class="text-xl font-bold mb-2">GCLI</h4>
+                        <p class="text-sm text-gray-400 mb-4">AI-powered terminal commands</p>
+                        <div class="space-y-2 mb-4 text-sm">
+                            <div><span class="text-green-400">✅</span> 10,000+ commands</div>
+                            <div><span class="text-green-400">✅</span> Safety checks</div>
+                        </div>
+                        <a href="https://gcli.io/" target="_blank" class="link-glow text-sm">Visit Website →</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Orchestration -->
+            <div id="sub-orchestration" class="sub-category-content hidden">
+                <h3 class="text-3xl font-bold mb-8 glow-text">🔧 AI Orchestration Frameworks</h3>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="glass-card rounded-xl p-6">
+                        <div class="flex items-start justify-between mb-4">
+                            <h4 class="text-xl font-bold">LangChain</h4>
+                            <span class="badge badge-gold">100k+ ⭐</span>
+                        </div>
+                        <p class="text-sm text-gray-400 mb-4">Python, JS - Building apps with LLMs</p>
+                        <div class="space-y-2 mb-4 text-sm">
+                            <div><span class="text-green-400">✅</span> Chains, Agents, Memory</div>
+                            <div><span class="text-green-400">✅</span> RAG support</div>
+                            <div><span class="text-indigo-400">License:</span> MIT</div>
+                        </div>
+                        <a href="https://github.com/langchain-ai/langchain" target="_blank" class="link-glow text-sm">View on GitHub →</a>
+                    </div>
+                    
+                    <div class="glass-card rounded-xl p-6">
+                        <div class="flex items-start justify-between mb-4">
+                            <h4 class="text-xl font-bold">LlamaIndex</h4>
+                            <span class="badge badge-gold">45k+ ⭐</span>
+                        </div>
+                        <p class="text-sm text-gray-400 mb-4">Data framework for LLM apps</p>
+                        <div class="space-y-2 mb-4 text-sm">
+                            <div><span class="text-green-400">✅</span> Data connectors</div>
+                            <div><span class="text-green-400">✅</span> Advanced indexing</div>
+                            <div><span class="text-indigo-400">License:</span> MIT</div>
+                        </div>
+                        <a href="https://github.com/run-llama/llama_index" target="_blank" class="link-glow text-sm">View on GitHub →</a>
+                    </div>
+                    
+                    <div class="glass-card rounded-xl p-6">
+                        <h4 class="text-xl font-bold mb-2">LangGraph</h4>
+                        <p class="text-sm text-gray-400 mb-4">Build agents as graphs</p>
+                        <div class="space-y-2 mb-4 text-sm">
+                            <div><span class="text-green-400">✅</span> Low-level orchestration</div>
+                            <div><span class="text-indigo-400">License:</span> MIT</div>
+                        </div>
+                        <a href="https://github.com/langchain-ai/langgraph" target="_blank" class="link-glow text-sm">View on GitHub →</a>
+                    </div>
+                    
+                    <div class="glass-card rounded-xl p-6">
+                        <h4 class="text-xl font-bold mb-2">Semantic Kernel</h4>
+                        <p class="text-sm text-gray-400 mb-4">Microsoft - C#, Java, Python</p>
+                        <div class="space-y-2 mb-4 text-sm">
+                            <div><span class="text-green-400">✅</span> Skills & Memory</div>
+                            <div><span class="text-green-400">✅</span> Azure integration</div>
+                        </div>
+                        <a href="https://github.com/microsoft/semantic-kernel" target="_blank" class="link-glow text-sm">View on GitHub →</a>
+                    </div>
+                    
+                    <div class="glass-card rounded-xl p-6">
+                        <h4 class="text-xl font-bold mb-2">Haystack</h4>
+                        <p class="text-sm text-gray-400 mb-4">End-to-end NLP framework</p>
+                        <div class="space-y-2 mb-4 text-sm">
+                            <div><span class="text-green-400">✅</span> RAG pipelines</div>
+                            <div><span class="text-indigo-400">License:</span> Apache-2.0</div>
+                        </div>
+                        <a href="https://github.com/deepset-ai/haystack" target="_blank" class="link-glow text-sm">View on GitHub →</a>
+                    </div>
+                    
+                    <div class="glass-card rounded-xl p-6">
+                        <h4 class="text-xl font-bold mb-2">Flowise</h4>
+                        <p class="text-sm text-gray-400 mb-4">Drag & drop LLM flow builder</p>
+                        <div class="space-y-2 mb-4 text-sm">
+                            <div><span class="text-green-400">✅</span> Visual LangChain</div>
+                            <div><span class="text-green-400">✅</span> No-code solution</div>
+                        </div>
+                        <a href="https://github.com/FlowiseAI/Flowise" target="_blank" class="link-glow text-sm">View on GitHub →</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- AI Agents -->
+            <div id="sub-agents" class="sub-category-content hidden">
+                <h3 class="text-3xl font-bold mb-8 glow-text">🤖 AI Agent Frameworks</h3>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="glass-card rounded-xl p-6">
+                        <div class="flex items-start justify-between mb-4">
+                            <h4 class="text-xl font-bold">AutoGPT</h4>
+                            <span class="badge badge-gold">180k+ ⭐</span>
+                        </div>
+                        <p class="text-sm text-gray-400 mb-4">Autonomous GPT-4 agent</p>
+                        <div class="space-y-2 mb-4 text-sm">
+                            <div><span class="text-green-400">✅</span> Self-prompting</div>
+                            <div><span class="text-green-400">✅</span> Internet access</div>
+                            <div><span class="text-indigo-400">License:</span> MIT</div>
+                        </div>
+                        <a href="https://github.com/Significant-Gravitas/AutoGPT" target="_blank" class="link-glow text-sm">View on GitHub →</a>
+                    </div>
+                    
+                    <div class="glass-card rounded-xl p-6">
+                        <div class="flex items-start justify-between mb-4">
+                            <h4 class="text-xl font-bold">CrewAI</h4>
+                            <span class="badge badge-gold">40k+ ⭐</span>
+                        </div>
+                        <p class="text-sm text-gray-400 mb-4">Role-playing autonomous agents</p>
+                        <div class="space-y-2 mb-4 text-sm">
+                            <div><span class="text-green-400">✅</span> Multi-agent collaboration</div>
+                            <div><span class="text-green-400">✅</span> Task delegation</div>
+                            <div><span class="text-indigo-400">License:</span> MIT</div>
+                        </div>
+                        <a href="https://github.com/crewAIInc/crewAI" target="_blank" class="link-glow text-sm">View on GitHub →</a>
+                    </div>
+                    
+                    <div class="glass-card rounded-xl p-6">
+                        <h4 class="text-xl font-bold mb-2">AutoGen</h4>
+                        <p class="text-sm text-gray-400 mb-4">Microsoft - Multi-agent framework</p>
+                        <div class="space-y-2 mb-4 text-sm">
+                            <div><span class="text-green-400">✅</span> Conversational agents</div>
+                            <div><span class="text-green-400">✅</span> Group chat model</div>
+                        </div>
+                        <a href="https://github.com/microsoft/autogen" target="_blank" class="link-glow text-sm">View on GitHub →</a>
+                    </div>
+                    
+                    <div class="glass-card rounded-xl p-6">
+                        <div class="flex items-start justify-between mb-4">
+                            <h4 class="text-xl font-bold">BabyAGI</h4>
+                            <span class="badge">20k+ ⭐</span>
+                        </div>
+                        <p class="text-sm text-gray-400 mb-4">Task-driven autonomous agent</p>
+                        <div class="space-y-2 mb-4 text-sm">
+                            <div><span class="text-green-400">✅</span> Task prioritization</div>
+                            <div><span class="text-green-400">✅</span> Simple architecture</div>
+                        </div>
+                        <a href="https://github.com/yoheinakajima/babyagi" target="_blank" class="link-glow text-sm">View on GitHub →</a>
+                    </div>
+                    
+                    <div class="glass-card rounded-xl p-6">
+                        <div class="flex items-start justify-between mb-4">
+                            <h4 class="text-xl font-bold">SuperAGI</h4>
+                            <span class="badge">16.9k+ ⭐</span>
+                        </div>
+                        <p class="text-sm text-gray-400 mb-4">Dev-first open source framework</p>
+                        <div class="space-y-2 mb-4 text-sm">
+                            <div><span class="text-green-400">✅</span> GUI included</div>
+                            <div><span class="text-indigo-400">License:</span> MIT</div>
+                        </div>
+                        <a href="https://github.com/TransformerOptimus/SuperAGI" target="_blank" class="link-glow text-sm">View on GitHub →</a>
+                    </div>
+                    
+                    <div class="glass-card rounded-xl p-6">
+                        <div class="flex items-start justify-between mb-4">
+                            <h4 class="text-xl font-bold">gpt-engineer</h4>
+                            <span class="badge">52k+ ⭐</span>
+                        </div>
+                        <p class="text-sm text-gray-400 mb-4">Generate entire codebases</p>
+                        <div class="space-y-2 mb-4 text-sm">
+                            <div><span class="text-green-400">✅</span> Natural language specs</div>
+                            <div><span class="text-indigo-400">License:</span> MIT</div>
+                        </div>
+                        <a href="https://github.com/gpt-engineer-org/gpt-engineer" target="_blank" class="link-glow text-sm">View on GitHub →</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- RAG -->
+            <div id="sub-rag" class="sub-category-content hidden">
+                <h3 class="text-3xl font-bold mb-8 glow-text">🔍 RAG Frameworks & Vector DBs</h3>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="glass-card rounded-xl p-6">
+                        <h4 class="text-xl font-bold mb-2">Chroma</h4>
+                        <p class="text-sm text-gray-400 mb-4">AI-native embedding database</p>
+                        <div class="space-y-2 mb-4 text-sm">
+                            <div><span class="text-green-400">✅</span> Python & JavaScript</div>
+                            <div><span class="text-indigo-400">License:</span> Apache-2.0</div>
+                        </div>
+                        <a href="https://www.trychroma.com/" target="_blank" class="link-glow text-sm">Visit Website →</a>
+                    </div>
+                    
+                    <div class="glass-card rounded-xl p-6">
+                        <h4 class="text-xl font-bold mb-2">Weaviate</h4>
+                        <p class="text-sm text-gray-400 mb-4">Open-source vector database</p>
+                        <div class="space-y-2 mb-4 text-sm">
+                            <div><span class="text-green-400">✅</span> GraphQL API</div>
+                            <div><span class="text-green-400">✅</span> Multi-modal</div>
+                        </div>
+                        <a href="https://weaviate.io/" target="_blank" class="link-glow text-sm">Visit Website →</a>
+                    </div>
+                    
+                    <div class="glass-card rounded-xl p-6">
+                        <h4 class="text-xl font-bold mb-2">Milvus</h4>
+                        <p class="text-sm text-gray-400 mb-4">Cloud-native vector database</p>
+                        <div class="space-y-2 mb-4 text-sm">
+                            <div><span class="text-green-400">✅</span> High performance</div>
+                            <div><span class="text-indigo-400">License:</span> Apache-2.0</div>
+                        </div>
+                        <a href="https://milvus.io/" target="_blank" class="link-glow text-sm">Visit Website →</a>
+                    </div>
+                    
+                    <div class="glass-card rounded-xl p-6">
+                        <h4 class="text-xl font-bold mb-2">Qdrant</h4>
+                        <p class="text-sm text-gray-400 mb-4">Vector similarity search engine</p>
+                        <div class="space-y-2 mb-4 text-sm">
+                            <div><span class="text-green-400">✅</span> API-first</div>
+                            <div><span class="text-indigo-400">Built with:</span> Rust</div>
+                        </div>
+                        <a href="https://qdrant.tech/" target="_blank" class="link-glow text-sm">Visit Website →</a>
+                    </div>
+                    
+                    <div class="glass-card rounded-xl p-6">
+                        <h4 class="text-xl font-bold mb-2">FAISS</h4>
+                        <p class="text-sm text-gray-400 mb-4">Facebook AI - Similarity search</p>
+                        <div class="space-y-2 mb-4 text-sm">
+                            <div><span class="text-green-400">✅</span> Highly optimized</div>
+                            <div><span class="text-indigo-400">License:</span> MIT</div>
+                        </div>
+                        <a href="https://github.com/facebookresearch/faiss" target="_blank" class="link-glow text-sm">View on GitHub →</a>
+                    </div>
+                    
+                    <div class="glass-card rounded-xl p-6">
+                        <h4 class="text-xl font-bold mb-2">PrivateGPT</h4>
+                        <p class="text-sm text-gray-400 mb-4">100% private RAG</p>
+                        <div class="space-y-2 mb-4 text-sm">
+                            <div><span class="text-green-400">✅</span> No data leaves device</div>
+                            <div><span class="text-indigo-400">License:</span> Apache-2.0</div>
+                        </div>
+                        <a href="https://github.com/imartinez/privateGPT" target="_blank" class="link-glow text-sm">View on GitHub →</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Local LLM -->
+            <div id="sub-local" class="sub-category-content hidden">
+                <h3 class="text-3xl font-bold mb-8 glow-text">🏠 Local LLM Tools (No API Key Required)</h3>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="glass-card rounded-xl p-6">
+                        <div class="flex items-start justify-between mb-4">
+                            <h4 class="text-xl font-bold">Ollama</h4>
+                            <span class="badge badge-gold">100k+ ⭐</span>
+                        </div>
+                        <p class="text-sm text-gray-400 mb-4">Run LLMs locally - Simple CLI</p>
+                        <div class="space-y-2 mb-4 text-sm">
+                            <div><span class="text-green-400">✅</span> Llama, Mistral, Gemma</div>
+                            <div><span class="text-green-400">✅</span> REST API included</div>
+                            <div><span class="text-green-400">✅</span> FREE forever</div>
+                        </div>
+                        <a href="https://ollama.ai" target="_blank" class="link-glow text-sm">Visit Website →</a>
+                    </div>
+                    
+                    <div class="glass-card rounded-xl p-6">
+                        <h4 class="text-xl font-bold mb-2">LM Studio</h4>
+                        <p class="text-sm text-gray-400 mb-4">Discover & run local LLMs</p>
+                        <div class="space-y-2 mb-4 text-sm">
+                            <div><span class="text-green-400">✅</span> GUI & CLI</div>
+                            <div><span class="text-green-400">✅</span> OpenAI-compatible API</div>
+                            <div><span class="text-green-400">✅</span> FREE forever</div>
+                        </div>
+                        <a href="https://lmstudio.ai/" target="_blank" class="link-glow text-sm">Visit Website →</a>
+                    </div>
+                    
+                    <div class="glass-card rounded-xl p-6">
+                        <div class="flex items-start justify-between mb-4">
+                            <h4 class="text-xl font-bold">GPT4All</h4>
+                            <span class="badge">76k+ ⭐</span>
+                        </div>
+                        <p class="text-sm text-gray-400 mb-4">Run LLMs locally - Privacy-focused</p>
+                        <div class="space-y-2 mb-4 text-sm">
+                            <div><span class="text-green-400">✅</span> Desktop app</div>
+                            <div><span class="text-green-400">✅</span> Python bindings</div>
+                            <div><span class="text-indigo-400">License:</span> MIT</div>
+                        </div>
+                        <a href="https://gpt4all.io" target="_blank" class="link-glow text-sm">Visit Website →</a>
+                    </div>
+                    
+                    <div class="glass-card rounded-xl p-6">
+                        <div class="flex items-start justify-between mb-4">
+                            <h4 class="text-xl font-bold">llama.cpp</h4>
+                            <span class="badge">89.6k+ ⭐</span>
+                        </div>
+                        <p class="text-sm text-gray-400 mb-4">LLM inference in C/C++</p>
+                        <div class="space-y-2 mb-4 text-sm">
+                            <div><span class="text-green-400">✅</span> Pure C/C++</div>
+                            <div><span class="text-green-400">✅</span> Apple Silicon optimized</div>
+                            <div><span class="text-indigo-400">License:</span> MIT</div>
+                        </div>
+                        <a href="https://github.com/ggml-org/llama.cpp" target="_blank" class="link-glow text-sm">View on GitHub →</a>
+                    </div>
+                    
+                    <div class="glass-card rounded-xl p-6">
+                        <h4 class="text-xl font-bold mb-2">Jan</h4>
+                        <p class="text-sm text-gray-400 mb-4">Open-source AI desktop - 4.4M downloads</p>
+                        <div class="space-y-2 mb-4 text-sm">
+                            <div><span class="text-green-400">✅</span> ChatGPT-like interface</div>
+                            <div><span class="text-green-400">✅</span> FREE forever</div>
+                        </div>
+                        <a href="https://jan.ai/" target="_blank" class="link-glow text-sm">Visit Website →</a>
+                    </div>
+                    
+                    <div class="glass-card rounded-xl p-6">
+                        <h4 class="text-xl font-bold mb-2">LocalAI</h4>
+                        <p class="text-sm text-gray-400 mb-4">Drop-in OpenAI replacement</p>
+                        <div class="space-y-2 mb-4 text-sm">
+                            <div><span class="text-green-400">✅</span> No GPU required</div>
+                            <div><span class="text-green-400">✅</span> Text, image, audio</div>
+                        </div>
+                        <a href="https://localai.io" target="_blank" class="link-glow text-sm">Visit Website →</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Quick Links -->
+        <section class="mb-32">
+            <div class="glass-card rounded-2xl p-12 text-center">
+                <h2 class="text-4xl font-bold mb-6 glow-text">🚀 Ready to Start?</h2>
+                <p class="text-xl text-gray-300 mb-8">Pilih provider favorit Anda dan mulai building!</p>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="https://console.groq.com/" target="_blank" class="px-8 py-4 gradient-animated rounded-lg font-semibold text-white hover:scale-105 transition">
+                        Start with Groq
+                    </a>
+                    <a href="https://inference.cerebras.ai/" target="_blank" class="px-8 py-4 gradient-animated rounded-lg font-semibold text-white hover:scale-105 transition">
+                        Try Cerebras
+                    </a>
+                    <a href="https://aistudio.google.com/" target="_blank" class="px-8 py-4 gradient-animated rounded-lg font-semibold text-white hover:scale-105 transition">
+                        Google AI Studio
+                    </a>
+                    <a href="https://ollama.ai" target="_blank" class="px-8 py-4 glass-card rounded-lg font-semibold hover:scale-105 transition">
+                        Run Locally (Ollama)
+                    </a>
+                </div>
+            </div>
+        </section>
+        
+    </main>
+    
+    <!-- Footer -->
+    <footer class="glass-card border-t py-12">
+        <div class="container mx-auto px-6 text-center">
+            <p class="text-gray-400 mb-4">
+                🚀 Free AI Resources - Webinar Bonus 2024
+            </p>
+            <p class="text-sm text-gray-500">
+                Last updated: November 12, 2024 | Data dikumpulkan dari sumber open-source
+            </p>
+            <p class="text-xs text-gray-600 mt-4">
+                ⚠️ Free tiers dapat berubah sewaktu-waktu. Selalu cek website resmi untuk info terbaru.
+            </p>
+        </div>
+    </footer>
+    
+    <script>
+        // Mouse glow effect
+        const mouseGlow = document.getElementById('mouseGlow');
+        let mouseX = 0;
+        let mouseY = 0;
+        let currentX = 0;
+        let currentY = 0;
+        
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+        
+        function animateGlow() {
+            const dx = mouseX - currentX;
+            const dy = mouseY - currentY;
+            
+            currentX += dx * 0.1;
+            currentY += dy * 0.1;
+            
+            mouseGlow.style.left = currentX + 'px';
+            mouseGlow.style.top = currentY + 'px';
+            
+            requestAnimationFrame(animateGlow);
+        }
+        
+        animateGlow();
+        
+        // Scroll indicator
+        window.addEventListener('scroll', () => {
+            const scrollIndicator = document.getElementById('scrollIndicator');
+            const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (window.scrollY / windowHeight) * 100;
+            scrollIndicator.style.width = scrolled + '%';
+        });
+        
+        // Category switching for providers
+        function showCategory(category) {
+            // Hide all categories
+            document.querySelectorAll('.category-content').forEach(el => {
+                el.classList.add('hidden');
+            });
+            
+            // Show selected category
+            document.getElementById('category-' + category).classList.remove('hidden');
+            
+            // Update button styles
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.category === category) {
+                    btn.classList.add('active');
+                    btn.style.background = 'rgba(99, 102, 241, 0.3)';
+                    btn.style.borderColor = 'rgba(99, 102, 241, 0.6)';
+                } else {
+                    btn.style.background = 'rgba(17, 24, 39, 0.7)';
+                    btn.style.borderColor = 'rgba(99, 102, 241, 0.2)';
+                }
+            });
+        }
+        
+        // Sub-category switching for CLI tools
+        function showSubCategory(subCategory) {
+            // Hide all sub-categories
+            document.querySelectorAll('.sub-category-content').forEach(el => {
+                el.classList.add('hidden');
+            });
+            
+            // Show selected sub-category
+            document.getElementById('sub-' + subCategory).classList.remove('hidden');
+            
+            // Update button styles
+            document.querySelectorAll('.sub-category-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.sub === subCategory) {
+                    btn.classList.add('active');
+                    btn.style.background = 'rgba(99, 102, 241, 0.3)';
+                    btn.style.borderColor = 'rgba(99, 102, 241, 0.6)';
+                } else {
+                    btn.style.background = 'rgba(17, 24, 39, 0.7)';
+                    btn.style.borderColor = 'rgba(99, 102, 241, 0.2)';
+                }
+            });
+        }
+        
+        // Smooth scroll for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // Initialize with first category and sub-category
+        document.addEventListener('DOMContentLoaded', () => {
+            showCategory('llm');
+            showSubCategory('cli');
+        });
+    </script>
+</body>
+</html>
