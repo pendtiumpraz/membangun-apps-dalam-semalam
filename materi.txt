@@ -1,0 +1,95 @@
+
+
+BAB 1 : Why We Need To Make Apps Fast!
+- Kebutuhan Industri IT di era AI meningkat pesat (please give data)
+- Programmer without AI -> hanya kerja untuk company, Programmer + AI -> bikin SaaS, Bikin template, bikin product, Bikin Solusi!
+- Non IT juga bisa bikin apps, asal mereka tahu fundamental pemrograman, dan istilah istilah dalam pemrograman
+
+BAB 2 : Ideation
+- Apa saja yang bisa di create? -> solusi dari segala permasalahan
+ -> lihat dari yang terdekat, misal aku ada di lingkungan pondok, ya aku bikin apps pondok yang bisa berdampak
+ -> dan lihat kebutuhan orang lain (misal ada request langsung dibuatkan)
+- Apa saja yang laku -> bisa kita minta AI untuk analyze
+- Buat template, Buat Saas
+ -> problem, misal saas itu daripada kita install 10 toko online kecil, mending bikin 1 saas 1x install user yg daftar dan custom domain dari sana, atau landing page atau company profile, dibikin saas (kita menang, dengan harga lebih murah, dan kalau client tidak bayar, otomatis deactive websitenya (tapi tidak terhapus), server tetap nyala dan dia bisa aktifkan lagi sesuka dia, kita bisa pasang banyak template
+- Atau website Saas Undangan nikah murah misal, yang disitu disertai dengan diary pernikahan, atau system management keuangan rumah tangga, who knows peluang2 itu bakal ada
+
+BAB 3 : What we Need?
+- Tools : CLI - IDE
+- AI : FREE API KEY CODING AGENT
+- Knowledge about tech stack, How to run it, what server can run it 
+- Tech stack : ini penting untuk tahu pakai BE / FE apa, buat yang awam, Backend (Appsnya : database migration, model, schema, seeder, controller), Frontend (Tampilannya, entah itu desktop view, responsive / mobile apps view, web view)
+
+- Tahu Tech stack itu di run di mana :
+- Laravel misal di hosting yang ada terminalnya cukup, (domainesia) / rumahweb (tapi bakal sulit untuk npm run dev, jadi npm run dev di local, lalu public foldernya di upload manual di file manager), databasenya pakai mysql sudah cukup
+- Nextjs / React / Nodejs / Expressjs pakai vercel
+ -> misal tahu nextjs bisa full stack, ya langsung aja hosting pakai free hosting di vercel, database pakai prisma postgresql
+
+- Update newest LLM & AI Tech : hugging space
+
+BAB 4 : LET's Create (PLAN)
+- Case : ATM Apps -> Cari Dokumentasi, lempar agentic untuk bikin summary, flow, dan UI UX Guide + Brand identity, minta buat original brand identity yg ga sama dengan itu
+
+- Buat apa Kembali ke Ideation tadi fixnya mau buat apa? . . . 
+
+- Pilih tech stack
+
+- Kasih logic fungsional apps :
+ Misal untuk CRUD, pakai table view dan create / edit cukup modal sidebar tidak perlu newpage (kalau logic ini gak dikasih biasanya bakal new page create dan edit dan ini buang buang token), tambahan logic2 seperti Role, ada super admin, ada client, minta sekalian role management biar bisa ditambah2 (ini bisa didapatkan dari pengalaman project bikin apps)
+
+ Tampilan seperti apa, yang mau dibikin?
+- Js animation seperti apa yang mau dibuat apakah three js atau yg lain, dia ngerti semua, color seperti apa yang mau dibuat, pakai gradient atau background animation, kasih image dari unsplash (karena gak bisa generate) tapi dia bisa cari online, All this detail, sidebar dengan icon2 yang elegant misal
+
+- Dan ini dia intinya, dari seluruh kebutuhan itu, lempar aja teks2 itu ke dalam AInya, suruh dia buat PRP (Product Requirement Prompt), Roadmap, dan Breakdown Task, dan ERD (Rancangan relationship databasenya)
+
+BAB 5 : EXSEKUSKI
+- Lalu Ya, Eksekusi, perintahkan dia untuk eksekusi dari backend, berurutan flownya sebagaimana bikin apps pada umumnya, misal ni bikin laravel "Eksekusi mulai dari database migration sesuai dengan ERD SELURUHNYA, Setelah itu buat Modelnya SELURUHNYA, lalu Seeder "dummy" SELURUHNYA (untuk cek apakah model bekerja dengan benar), lalu baru buat seluruh CONTROLLERNYA & API controllernya, lalu buat ROUTING CRUD & Routing API complete berdasarkan seluruh controller, lalu baru buat CRUD VIEW COMPLETE SESUAI DENGAN PRP yang sudah dibuat
+
+- dia akan jalanin tahapan2 ini dan dia akan breakdown task
+
+- Disini kalau pakai claude code berbayar bisa pakai claude-flow untuk orchestrator, bisa jalan 8-10 agent bersamaan
+- Kalau pakai free droid CLI bisa pakai orchestrator droid CLI ada di github
+
+
+BAB 6 : QUALITY ASSURANCE
+- Kalau semua sudah selesai, maka tugas kita sekarang adalah sebagai QA, yang tadinya jadi PM / Lead dari AI, sekarang jadi QA juga, kita test seluruh flow, dari login, sampai seluruh CRUD kita test, ya karena kita mau bikin production apps jadi harus di cek jangan sampai ada bug
+
+- Misal ni ada Create & edit belum berfungsi dengan baik, bilang aja ke agentnya, Periksa view user management, di create dan edit belum berfungsi, tolong cek di controller, model, dan migration, sinkronkan agar bisa create dan edit
+
+Prosesnya secepat apa? 1-3 menit untuk ini semua dia cek seluruhnya
+
+- Atau case lain nextjs, atau react, biasanya ada ratusan error typescript untuk MVP, di kisaran 500 - 1000, dari awal build sampai selesai, jadi ada trik khusus, maka ketika pembuatan, dia harus jalankan npm install typescript dulu, lalu suruh dia npx tsc --noEmit setelah selesai bikin 10 file, dan memastikan seluruh error typescript dibersihkan, jadi bener bener clean code
+
+- Kasus lain kalau nyelesaikan 1000+ error type script juga gak butuh waktu lama dia, butuh sekitar 4x proses, dan masing2 proses makan waktu 5-10 menit, jadi kisaran setengah jam 1000 error type script itu hilang
+
+- Ada 1 prompt khusus untuk QA
+"Lakukan npx tsc --noEmit setiap selesai 10 task, dan buatlah Dokumen checking untuk mengecek VIEW, model, dan migration apakah sudah sinkron dan buat kesimpulan"
+
+kalau sudah dapat kesmpulan dan ada yg belum sinkron "perbaiki", ini untuk memastikan seluruh CRUD berjalan dengan baik
+
+BAB : 7 Deploy & Publish
+- Pastikan setiap revisi / penambahan fitur itu nanti juga mengulang proses QA, sebelum push main
+
+- Khusus untuk claude code, dia bisa bikinin kita repo sendiri dari masing2 folder project yg kita buat, tapi untuk CLI lain harus manual
+
+
+BAB : 8 PORTFOLIO 
+- medwell.esteh.id (1 malam)
+- dibeli-platform.vercel.app (1 malam)
+- stt-project-drab.vercel.app (1 malam)
+- toko-digital-one.vercel.app (3 malam)
+- pondok-digital.vercel.app (7 malam)
+- chat.diproses.online (2 malam)
+- ai-learning-platforms.vercel.app (1 malam)
+- dobeon-static.vercel.app (1 malam)
+- complete-arabic-lesson.vercel.app (2 malam)
+- imam-syafii-blitar.vercel.app (14 malam)
+
+offline : 
+- POS : BE Elysiajs, FE Nextjs (1 malam)
+- Back office AI : Full laravel (1 malam)
+- LMS Course : Full Laravel (7 malam)
+
+Lets Connect : linkedin.com/in/pendtiumpraz
+Follow Me : instagram.com/pendtiumpraz
+Join Community 

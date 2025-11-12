@@ -1,0 +1,1924 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Membangun Candi Apps Dalam Semalam</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind Config & Custom Styles -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'neon-blue': '#00d4ff',
+                        'deep-blue': '#0a1929',
+                        'dark-navy': '#050b14',
+                        'cyan-glow': '#00ffff',
+                        'electric-blue': '#1e90ff',
+                        'neon-pink': '#ff006e',
+                        'purple-glow': '#8b5cf6',
+                    },
+                    fontFamily: {
+                        'orbitron': ['Orbitron', 'sans-serif'],
+                        'inter': ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+            background: #050b14;
+        }
+        
+        /* Custom animations */
+        @keyframes glow-pulse {
+            0%, 100% { text-shadow: 0 0 20px #00d4ff, 0 0 40px #00d4ff; }
+            50% { text-shadow: 0 0 30px #00d4ff, 0 0 60px #00d4ff, 0 0 80px #00d4ff; }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        @keyframes slide-in-right {
+            from { opacity: 0; transform: translateX(100px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        @keyframes slide-out-left {
+            from { opacity: 1; transform: translateX(0); }
+            to { opacity: 0; transform: translateX(-100px); }
+        }
+        
+        @keyframes grid-move {
+            from { transform: translateY(0); }
+            to { transform: translateY(50px); }
+        }
+        
+        @keyframes shine {
+            from { left: -100%; }
+            to { left: 100%; }
+        }
+        
+        @keyframes fade-pulse {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+        
+        @keyframes strikethrough-draw {
+            from { width: 0%; opacity: 0; }
+            to { width: 110%; opacity: 1; }
+        }
+        
+        .animate-glow-pulse {
+            animation: glow-pulse 2s ease-in-out infinite;
+        }
+        
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .slide {
+            display: none;
+            opacity: 0;
+        }
+        
+        .slide.active {
+            display: flex;
+            animation: slide-in-right 0.4s ease-out forwards;
+        }
+        
+        .slide.exit {
+            animation: slide-out-left 0.4s ease-out forwards;
+        }
+        
+        /* Grid background */
+        .grid-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #050b14 0%, #0a1929 50%, #001529 100%);
+            z-index: 0;
+        }
+        
+        .grid-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 212, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 212, 255, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: grid-move 20s linear infinite;
+            opacity: 0.3;
+        }
+        
+        /* Mouse glow */
+        #mouseGlow {
+            position: fixed;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0, 212, 255, 0.15) 0%, transparent 70%);
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+            transition: opacity 0.3s;
+        }
+        
+        /* Strikethrough effect */
+        .strikethrough {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .strikethrough::after {
+            content: '';
+            position: absolute;
+            left: -5%;
+            top: 50%;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, #ff006e, #00d4ff);
+            transform: translateY(-50%) rotate(-5deg);
+            animation: strikethrough-draw 0.8s ease-out forwards;
+            animation-delay: 0.5s;
+            opacity: 0;
+        }
+        
+        /* Stats box shine */
+        .stats-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: shine 3s infinite;
+        }
+        
+        /* Glass morphism */
+        .glass-card {
+            background: rgba(10, 25, 41, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+        }
+        
+        /* Neon list */
+        .neon-list li::before {
+            text-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff, 0 0 30px #00d4ff;
+            animation: fade-pulse 2s ease-in-out infinite;
+        }
+        
+        /* Hide on mobile */
+        @media (max-width: 768px) {
+            #mouseGlow {
+                display: none;
+            }
+        }
+        
+        /* Prevent text selection during presentation */
+        .slide * {
+            user-select: none;
+        }
+    </style>
+</head>
+<body class="bg-dark-navy text-white overflow-hidden">
+    
+    <!-- Mouse Glow Effect -->
+    <div id="mouseGlow"></div>
+    
+    <!-- Animated Background -->
+    <div class="grid-background">
+        <div class="grid-overlay"></div>
+    </div>
+    
+    <!-- Slides Container -->
+    <div id="slidesContainer" class="relative z-10 w-screen h-screen">
+        
+        <!-- SLIDE 1: COVER -->
+        <section class="slide active flex items-center justify-center w-full h-full p-8" data-slide="1">
+            <div class="text-center z-10 max-w-5xl">
+                <h1 class="font-orbitron text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-neon-blue to-purple-glow bg-clip-text text-transparent">
+                    Membangun <span class="strikethrough text-white">Candi</span> Apps Dalam Semalam
+                </h1>
+                <p class="text-xl md:text-3xl text-cyan-glow font-light tracking-wide">
+                    From Zero to Production with AI-Powered Development
+                </p>
+            </div>
+            <div class="absolute inset-0 opacity-20">
+                <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&q=80" 
+                     alt="futuristic" class="w-full h-full object-cover">
+            </div>
+        </section>
+        
+        <!-- SLIDE 2: BAB 1 - CHAPTER TITLE -->
+        <section class="slide flex items-center justify-center w-full h-full p-8" data-slide="2">
+            <div class="text-center relative z-10">
+                <div class="text-9xl font-black text-neon-blue opacity-10 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 animate-float font-orbitron">
+                    01
+                </div>
+                <h2 class="text-5xl md:text-6xl font-bold font-orbitron animate-glow-pulse relative z-10 mb-4">
+                    Speed Revolution
+                </h2>
+                <p class="text-2xl text-cyan-glow">Kecepatan Adalah Mata Uang Baru</p>
+            </div>
+            <div class="absolute inset-0 opacity-20">
+                <img src="https://images.unsplash.com/photo-1504805572947-34fad45aed93?w=1920&q=80" 
+                     alt="developer coding" class="w-full h-full object-cover">
+            </div>
+        </section>
+        
+        <!-- SLIDE 3: AI ERA TRANSFORMATION -->
+        <section class="slide flex items-center justify-center w-full h-full p-8" data-slide="3">
+            <div class="glass-card rounded-3xl p-12 max-w-6xl shadow-2xl shadow-neon-blue/20">
+                <h2 class="text-4xl font-bold font-orbitron text-neon-blue mb-8">Era Baru Telah Tiba</h2>
+                <div class="grid md:grid-cols-2 gap-8 mb-8">
+                    <div class="space-y-4">
+                        <h3 class="text-2xl font-semibold text-neon-pink mb-4">Sebelum AI</h3>
+                        <ul class="space-y-3 text-lg">
+                            <li class="flex items-start gap-3">
+                                <span class="text-neon-pink text-2xl">×</span>
+                                <span>Developer = Tukang Ketik Kode</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="text-neon-pink text-2xl">×</span>
+                                <span>Kerja untuk orang lain</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="text-neon-pink text-2xl">×</span>
+                                <span>Terikat waktu & tempat</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="text-neon-pink text-2xl">×</span>
+                                <span>Limited output</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="space-y-4">
+                        <h3 class="text-2xl font-semibold text-neon-blue mb-4">Sesudah AI</h3>
+                        <ul class="space-y-3 text-lg">
+                            <li class="flex items-start gap-3">
+                                <span class="text-neon-blue text-2xl">✓</span>
+                                <span>Developer = Digital Architect</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="text-neon-blue text-2xl">✓</span>
+                                <span>Build SaaS products</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="text-neon-blue text-2xl">✓</span>
+                                <span>Create marketable templates</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="text-neon-blue text-2xl">✓</span>
+                                <span>Scale without limits</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="stats-box relative overflow-hidden bg-gradient-to-r from-neon-blue/10 to-purple-glow/10 border-2 border-neon-blue rounded-xl p-6">
+                    <p class="text-2xl font-bold text-center text-neon-blue">Kebutuhan IT meningkat 300%+ di era AI</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- SLIDE 4: BREAKING THE CODE BARRIER -->
+        <section class="slide flex items-center justify-center w-full h-full p-8" data-slide="4">
+            <div class="glass-card rounded-3xl p-12 max-w-5xl shadow-2xl shadow-purple-glow/20">
+                <h2 class="text-4xl font-bold font-orbitron text-neon-blue mb-8">Siapa Bilang Harus Jadi Expert?</h2>
+                <div class="mb-8">
+                    <h3 class="text-2xl font-semibold text-purple-glow mb-6">Non-IT → App Creator:</h3>
+                    <ul class="space-y-4 text-xl">
+                        <li class="flex items-center gap-4">
+                            <span class="text-neon-blue text-3xl">✓</span>
+                            <span>Pahami fundamental programming</span>
+                        </li>
+                        <li class="flex items-center gap-4">
+                            <span class="text-neon-blue text-3xl">✓</span>
+                            <span>Kenali istilah teknis</span>
+                        </li>
+                        <li class="flex items-center gap-4">
+                            <span class="text-neon-blue text-3xl">✓</span>
+                            <span>Leverage AI as co-pilot</span>
+                        </li>
+                        <li class="flex items-center gap-4">
+                            <span class="text-neon-blue text-3xl">✓</span>
+                            <span>Ship products, not perfect code</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="bg-gradient-to-r from-purple-glow/20 to-neon-pink/20 border-l-4 border-neon-pink rounded-lg p-6">
+                    <p class="text-xl italic text-cyan-glow">
+                        "Kamu gak perlu jadi master coder. Kamu cuma perlu jadi master problem solver."
+                    </p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- SLIDE 5: NEW PLAYBOOK -->
+        <section class="slide flex items-center justify-center w-full h-full p-8" data-slide="5">
+            <div class="glass-card rounded-3xl p-12 max-w-6xl shadow-2xl shadow-neon-blue/20">
+                <h2 class="text-4xl font-bold font-orbitron text-neon-blue mb-10">Programmer + AI = Superpowers</h2>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="bg-gradient-to-br from-red-900/30 to-neon-pink/10 border border-neon-pink/30 rounded-xl p-8">
+                        <h3 class="text-2xl font-bold text-neon-pink mb-6">Traditional Path</h3>
+                        <ul class="space-y-3 text-lg">
+                            <li>⏱️ 3-6 bulan development</li>
+                            <li>📝 1 project at a time</li>
+                            <li>💸 High technical debt</li>
+                            <li>😰 Burnout risk: <span class="text-red-500 font-bold">HIGH</span></li>
+                        </ul>
+                    </div>
+                    <div class="bg-gradient-to-br from-neon-blue/30 to-purple-glow/10 border border-neon-blue/50 rounded-xl p-8">
+                        <h3 class="text-2xl font-bold text-neon-blue mb-6">AI-Powered Path</h3>
+                        <ul class="space-y-3 text-lg">
+                            <li>⚡ 1-7 hari production ready</li>
+                            <li>🚀 Multiple projects simultaneously</li>
+                            <li>✨ Clean, documented code</li>
+                            <li>😊 Burnout risk: <span class="text-green-400 font-bold">MINIMAL</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- SLIDE 6: BAB 1 - RECAP & TASK -->
+        <section class="slide flex items-center justify-center w-full h-full p-8" data-slide="6">
+            <div class="glass-card rounded-3xl p-10 max-w-6xl shadow-2xl shadow-neon-blue/20">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="text-5xl">📝</div>
+                    <h2 class="text-3xl font-bold font-orbitron text-neon-blue">BAB 1: Recap & Action</h2>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="text-xl font-bold text-purple-glow mb-3">🎯 Key Takeaways:</h3>
+                        <ul class="space-y-2 text-base">
+                            <li>✓ Kecepatan adalah competitive advantage di era AI</li>
+                            <li>✓ Developer + AI = 10-50x output multiplication</li>
+                            <li>✓ Non-IT bisa bikin apps dengan fundamental yang tepat</li>
+                            <li>✓ 1-7 hari production ready vs 3-6 bulan traditional</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-neon-blue/20 to-purple-glow/20 border-2 border-neon-blue rounded-xl p-5">
+                        <h3 class="text-xl font-bold text-neon-blue mb-3">🎯 Your Task #1:</h3>
+                        <div class="space-y-2 text-base">
+                            <p class="font-semibold text-cyan-glow">MINDSET SHIFT:</p>
+                            <ol class="space-y-1 text-sm ml-4">
+                                <li>1. Tulis 3 alasan kenapa kamu ingin bisa bikin apps cepat</li>
+                                <li>2. List 3 hambatan yang selama ini bikin kamu lambat</li>
+                                <li>3. Commit: "Dalam 7 hari, aku akan bikin 1 MVP!"</li>
+                            </ol>
+                            <div class="mt-4 pt-3 border-t border-neon-blue/30">
+                                <p class="text-cyan-glow font-bold text-sm">📤 Submit hasil:</p>
+                                <p class="text-xs text-gray-300 mt-1">DM LinkedIn/Instagram: <span class="text-neon-blue">@pendtiumpraz</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- SLIDE 7: BAB 2 - CHAPTER TITLE -->
+        <section class="slide flex items-center justify-center w-full h-full p-8" data-slide="7">
+            <div class="text-center relative z-10">
+                <div class="text-9xl font-black text-purple-glow opacity-10 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 animate-float font-orbitron">
+                    02
+                </div>
+                <h2 class="text-5xl md:text-6xl font-bold font-orbitron animate-glow-pulse relative z-10 mb-4">
+                    Ideas That Matter
+                </h2>
+                <p class="text-2xl text-cyan-glow">Ide Datang Dari Masalah, Bukan Imajinasi</p>
+            </div>
+            <div class="absolute inset-0 opacity-20">
+                <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=1920&q=80" 
+                     alt="lightbulb ideas" class="w-full h-full object-cover">
+            </div>
+        </section>
+        
+        <!-- SLIDE 7: FINDING GOLD IN PROBLEMS -->
+        <section class="slide flex items-center justify-center w-full h-full p-8" data-slide="7">
+            <div class="glass-card rounded-3xl p-12 max-w-6xl shadow-2xl shadow-purple-glow/20">
+                <h2 class="text-4xl font-bold font-orbitron text-neon-blue mb-8">Solusi Ada Di Sekitar Kita</h2>
+                <h3 class="text-2xl font-semibold text-purple-glow mb-6">Strategi Menemukan Ide:</h3>
+                
+                <div class="space-y-6">
+                    <div class="border-l-4 border-neon-blue pl-6 py-2">
+                        <h4 class="text-xl font-bold text-neon-blue mb-2">1. Look Close to Home</h4>
+                        <p class="text-lg">Lingkungan terdekat = first market</p>
+                        <p class="text-sm text-gray-400">Example: Di pondok? Bikin apps pondok</p>
+                    </div>
+                    
+                    <div class="border-l-4 border-purple-glow pl-6 py-2">
+                        <h4 class="text-xl font-bold text-purple-glow mb-2">2. Listen to Pain Points</h4>
+                        <p class="text-lg">Client request = validated demand</p>
+                        <p class="text-sm text-gray-400">Keluhan berulang = opportunity</p>
+                    </div>
+                    
+                    <div class="border-l-4 border-cyan-glow pl-6 py-2">
+                        <h4 class="text-xl font-bold text-cyan-glow mb-2">3. Ask AI for Market Analysis</h4>
+                        <p class="text-lg">"What's trending in [industry]?"</p>
+                        <p class="text-sm text-gray-400">Let AI do market research</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- SLIDE 8: SAAS VS CUSTOM BUILD -->
+        <section class="slide flex items-center justify-center w-full h-full p-8" data-slide="8">
+            <div class="glass-card rounded-3xl p-12 max-w-6xl shadow-2xl shadow-neon-blue/20">
+                <h2 class="text-4xl font-bold font-orbitron text-neon-blue mb-8">Scale Smart, Not Hard</h2>
+                <div class="mb-8">
+                    <h3 class="text-2xl font-semibold text-purple-glow mb-6">The SaaS Advantage:</h3>
+                    <div class="grid md:grid-cols-2 gap-6 mb-6">
+                        <div class="bg-red-900/20 border border-red-500/30 rounded-lg p-6">
+                            <p class="text-lg"><span class="text-red-400 font-bold">Old Way:</span> 10 toko online = 10x install, 10x maintenance</p>
+                        </div>
+                        <div class="bg-green-900/20 border border-green-500/30 rounded-lg p-6">
+                            <p class="text-lg"><span class="text-green-400 font-bold">New Way:</span> 1 SaaS platform = 1x install, unlimited users</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gradient-to-r from-neon-blue/10 to-purple-glow/10 rounded-xl p-6">
+                    <h4 class="text-xl font-bold text-neon-blue mb-4">SaaS Benefits:</h4>
+                    <ul class="grid md:grid-cols-2 gap-3 text-lg">
+                        <li>✓ Multi-tenant architecture</li>
+                        <li>✓ Custom domain per client</li>
+                        <li>✓ Auto-deactivate on non-payment</li>
+                        <li>✓ Reusable templates</li>
+                        <li>✓ Scale infinitely</li>
+                        <li>✓ Lebih murah, volume tinggi</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <!-- SLIDE 9: NICHE MARKET GOLDMINES -->
+        <section class="slide flex items-center justify-center w-full h-full p-8" data-slide="9">
+            <div class="glass-card rounded-3xl p-12 max-w-6xl shadow-2xl shadow-purple-glow/20">
+                <h2 class="text-4xl font-bold font-orbitron text-neon-blue mb-8">Untapped Opportunities</h2>
+                <h3 class="text-2xl font-semibold text-purple-glow mb-6">High-Potential SaaS Ideas:</h3>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-gradient-to-br from-neon-pink/20 to-purple-glow/10 border border-neon-pink/30 rounded-xl p-6">
+                        <div class="text-4xl mb-3">🎉</div>
+                        <h4 class="text-xl font-bold text-neon-pink mb-2">Wedding Invitation Platform</h4>
+                        <p class="text-sm text-gray-300">Diary pernikahan + Financial management system</p>
+                    </div>
+                    <div class="bg-gradient-to-br from-neon-blue/20 to-cyan-glow/10 border border-neon-blue/30 rounded-xl p-6">
+                        <div class="text-4xl mb-3">🏪</div>
+                        <h4 class="text-xl font-bold text-neon-blue mb-2">Multi-Store Management</h4>
+                        <p class="text-sm text-gray-300">Unified dashboard + Template marketplace</p>
+                    </div>
+                    <div class="bg-gradient-to-br from-purple-glow/20 to-electric-blue/10 border border-purple-glow/30 rounded-xl p-6">
+                        <div class="text-4xl mb-3">📚</div>
+                        <h4 class="text-xl font-bold text-purple-glow mb-2">Learning Management</h4>
+                        <p class="text-sm text-gray-300">Course platform + Student tracking</p>
+                    </div>
+                    <div class="bg-gradient-to-br from-cyan-glow/20 to-neon-blue/10 border border-cyan-glow/30 rounded-xl p-6">
+                        <div class="text-4xl mb-3">🏥</div>
+                        <h4 class="text-xl font-bold text-cyan-glow mb-2">Clinic/Practice Management</h4>
+                        <p class="text-sm text-gray-300">Patient records + Appointment system</p>
+                    </div>
+                </div>
+                <div class="mt-8 text-center">
+                    <p class="text-xl italic text-neon-blue">"What repetitive task can I automate for 1000 people?"</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- SLIDE 10: VALIDATION FRAMEWORK -->
+        <section class="slide flex items-center justify-center w-full h-full p-8" data-slide="10">
+            <div class="glass-card rounded-3xl p-12 max-w-5xl shadow-2xl shadow-neon-blue/20">
+                <h2 class="text-4xl font-bold font-orbitron text-neon-blue mb-8">Don't Build in a Vacuum</h2>
+                <h3 class="text-2xl font-semibold text-purple-glow mb-6">Quick Validation Checklist:</h3>
+                <ul class="space-y-4 text-xl mb-8">
+                    <li class="flex items-center gap-4">
+                        <span class="text-neon-blue text-3xl">✅</span>
+                        <span>Does it solve a real problem?</span>
+                    </li>
+                    <li class="flex items-center gap-4">
+                        <span class="text-neon-blue text-3xl">✅</span>
+                        <span>Will people pay for it?</span>
+                    </li>
+                    <li class="flex items-center gap-4">
+                        <span class="text-neon-blue text-3xl">✅</span>
+                        <span>Can I build MVP in &lt;1 week?</span>
+                    </li>
+                    <li class="flex items-center gap-4">
+                        <span class="text-neon-blue text-3xl">✅</span>
+                        <span>Is maintenance manageable?</span>
+                    </li>
+                    <li class="flex items-center gap-4">
+                        <span class="text-neon-blue text-3xl">✅</span>
+                        <span>Can it scale?</span>
+                    </li>
+                </ul>
+                <div class="bg-gradient-to-r from-purple-glow/20 to-neon-blue/20 border-l-4 border-neon-blue rounded-lg p-6">
+                    <p class="text-lg font-semibold text-cyan-glow mb-2">AI Prompt Example:</p>
+                    <p class="text-sm text-gray-300 italic">"Analyze market viability for [your idea]. Include: competition, pricing strategy, target audience, growth potential."</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- SLIDE 11: BAB 2 - RECAP & TASK -->
+        <section class="slide flex items-center justify-center w-full h-full p-8" data-slide="11">
+            <div class="glass-card rounded-3xl p-10 max-w-6xl shadow-2xl shadow-neon-blue/20">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="text-5xl">💡</div>
+                    <h2 class="text-3xl font-bold font-orbitron text-neon-blue">BAB 2: Recap & Action</h2>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="text-xl font-bold text-purple-glow mb-3">🎯 Key Takeaways:</h3>
+                        <ul class="space-y-2 text-base">
+                            <li>✓ Ide terbaik datang dari masalah di sekitar kita</li>
+                            <li>✓ SaaS model = 1x install, unlimited scale</li>
+                            <li>✓ Validasi ide sebelum coding (5 checklist)</li>
+                            <li>✓ AI bisa bantu market research & analysis</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-purple-glow/20 to-neon-pink/20 border-2 border-purple-glow rounded-xl p-5">
+                        <h3 class="text-xl font-bold text-purple-glow mb-3">🎯 Your Task #2:</h3>
+                        <div class="space-y-2 text-base">
+                            <p class="font-semibold text-cyan-glow">IDEATION CHALLENGE:</p>
+                            <ol class="space-y-1 text-sm ml-4">
+                                <li>1. Identifikasi 3 masalah di lingkungan terdekat kamu</li>
+                                <li>2. Pilih 1 yang paling sering dikeluhkan orang</li>
+                                <li>3. Validasi dengan 5 checklist (slide 10)</li>
+                                <li>4. Tulis 1 paragraph: "Ide saya adalah..."</li>
+                            </ol>
+                            <div class="mt-4 pt-3 border-t border-purple-glow/30">
+                                <p class="text-cyan-glow font-bold text-sm">📤 Submit ide:</p>
+                                <p class="text-xs text-gray-300 mt-1">DM LinkedIn/Instagram: <span class="text-purple-glow">@pendtiumpraz</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- SLIDE 12: BAB 3 - CHAPTER TITLE -->
+        <section class="slide flex items-center justify-center w-full h-full p-8" data-slide="12">
+            <div class="text-center relative z-10">
+                <div class="text-9xl font-black text-neon-blue opacity-10 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 animate-float font-orbitron">
+                    03
+                </div>
+                <h2 class="text-5xl md:text-6xl font-bold font-orbitron animate-glow-pulse relative z-10 mb-4">
+                    Toolkit Lengkap
+                </h2>
+                <p class="text-2xl text-cyan-glow">Tools Sederhana, Hasil Maksimal</p>
+            </div>
+            <div class="absolute inset-0 opacity-20">
+                <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=1920&q=80" 
+                     alt="tech tools" class="w-full h-full object-cover">
+            </div>
+        </section>
+        
+        <!-- SLIDE 12: ESSENTIAL TOOLKIT -->
+        <section class="slide flex items-center justify-center w-full h-full p-8" data-slide="12">
+            <div class="glass-card rounded-3xl p-12 max-w-6xl shadow-2xl shadow-neon-blue/20">
+                <h2 class="text-4xl font-bold font-orbitron text-neon-blue mb-8">4 Pilar Utama</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-gradient-to-br from-neon-blue/20 to-cyan-glow/10 border border-neon-blue/30 rounded-xl p-6">
+                        <h3 class="text-2xl font-bold text-neon-blue mb-4">1. Tools</h3>
+                        <ul class="space-y-2 text-lg">
+                            <li>• CLI (Command Line Interface)</li>
+                            <li>• IDE (VS Code, Cursor, Windsurf)</li>
+                        </ul>
+                    </div>
+                    <div class="bg-gradient-to-br from-purple-glow/20 to-neon-pink/10 border border-purple-glow/30 rounded-xl p-6">
+                        <h3 class="text-2xl font-bold text-purple-glow mb-4">2. AI Agents</h3>
+                        <ul class="space-y-2 text-lg">
+                            <li>• Claude Sonnet (complex logic)</li>
+                            <li>• GPT-4 (documentation)</li>
+                            <li>• Cursor, Cline, Droid CLI</li>
+                        </ul>
+                    </div>
+                    <div class="bg-gradient-to-br from-cyan-glow/20 to-electric-blue/10 border border-cyan-glow/30 rounded-xl p-6">
+                        <h3 class="text-2xl font-bold text-cyan-glow mb-4">3. Knowledge</h3>
+                        <ul class="space-y-2 text-lg">
+                            <li>• Tech stack fundamentals</li>
+                            <li>• Deployment platforms</li>
+                            <li>• Server requirements</li>
+                        </ul>
+                    </div>
+                    <div class="bg-gradient-to-br from-neon-pink/20 to-purple-glow/10 border border-neon-pink/30 rounded-xl p-6">
+                        <h3 class="text-2xl font-bold text-neon-pink mb-4">4. Tech Stack</h3>
+                        <ul class="space-y-2 text-lg">
+                            <li>• Backend + Frontend combo</li>
+                            <li>• Database choice</li>
+                            <li>• Hosting platform</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- SLIDE 13: BACKEND VS FRONTEND -->
+        <section class="slide flex items-center justify-center w-full h-full p-8" data-slide="13">
+            <div class="glass-card rounded-3xl p-12 max-w-6xl shadow-2xl shadow-purple-glow/20">
+                <h2 class="text-4xl font-bold font-orbitron text-neon-blue mb-8">Dua Sisi Mata Uang</h2>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="border-2 border-neon-blue rounded-xl p-8">
+                        <h3 class="text-3xl font-bold text-neon-blue mb-4">Backend (The Brain)</h3>
+                        <ul class="space-y-3 text-lg">
+                            <li>🗄️ Database migration & schema</li>
+                            <li>📦 Models & relationships</li>
+                            <li>🌱 Seeders (dummy data)</li>
+                            <li>⚙️ Controllers (business logic)</li>
+                            <li>🔌 API endpoints</li>
+                        </ul>
+                    </div>
+                    <div class="border-2 border-purple-glow rounded-xl p-8">
+                        <h3 class="text-3xl font-bold text-purple-glow mb-4">Frontend (The Face)</h3>
+                        <ul class="space-y-3 text-lg">
+                            <li>🎨 User interface design</li>
+                            <li>📱 Desktop/mobile responsive</li>
+                            <li>👆 User interactions</li>
+                            <li>📊 Data visualization</li>
+                            <li>✨ Animation & effects</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mt-8 text-center">
+                    <p class="text-xl font-bold text-cyan-glow">Golden Rule: Pick stack based on hosting availability!</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- SLIDE 14: TECH STACK MATCHMAKING -->
+        <section class="slide flex items-center justify-center w-full h-full p-8" data-slide="14">
+            <div class="glass-card rounded-3xl p-12 max-w-6xl shadow-2xl shadow-neon-blue/20">
+                <h2 class="text-4xl font-bold font-orbitron text-neon-blue mb-8">Stack + Hosting = Success</h2>
+                <div class="space-y-6">
+                    <div class="bg-gradient-to-r from-red-600/20 to-orange-500/20 border border-red-500/30 rounded-xl p-8">
+                        <h3 class="text-2xl font-bold text-orange-400 mb-4">Laravel Project</h3>
+                        <div class="grid md:grid-cols-2 gap-4 text-lg">
+                            <div>
+                                <p><span class="text-orange-300 font-semibold">Hosting:</span> DomaiNesia, RumahWeb</p>
+                                <p><span class="text-orange-300 font-semibold">Database:</span> MySQL</p>
+                            </div>
+                            <div>
+                                <p><span class="text-orange-300 font-semibold">Dev Note:</span> npm run dev locally</p>
+                                <p><span class="text-orange-300 font-semibold">Best For:</span> Complex business logic</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-neon-blue/20 to-purple-glow/20 border border-neon-blue/30 rounded-xl p-8">
+                        <h3 class="text-2xl font-bold text-neon-blue mb-4">Next.js / React / Node.js</h3>
+                        <div class="grid md:grid-cols-2 gap-4 text-lg">
+                            <div>
+                                <p><span class="text-cyan-glow font-semibold">Hosting:</span> Vercel (FREE!)</p>
+                                <p><span class="text-cyan-glow font-semibold">Database:</span> Prisma + PostgreSQL</p>
+                            </div>
+                            <div>
+                                <p><span class="text-cyan-glow font-semibold">Dev Note:</span> Full-stack capability</p>
+                                <p><span class="text-cyan-glow font-semibold">Best For:</span> Fast deployment, modern UX</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-8 text-center">
+                    <p class="text-xl text-purple-glow">Tahu tech stack → tahu hosting → tahu database</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- SLIDE 15: FREE RESOURCES -->
+        <section class="slide flex items-center justify-center w-full h-full p-8" data-slide="15">
+            <div class="glass-card rounded-3xl p-12 max-w-5xl shadow-2xl shadow-purple-glow/20">
+                <h2 class="text-4xl font-bold font-orbitron text-neon-blue mb-8">Zero Budget, Maximum Output</h2>
+                <div class="mb-8">
+                    <h3 class="text-2xl font-semibold text-purple-glow mb-6">Free AI Resources:</h3>
+                    <ul class="space-y-4 text-xl">
+                        <li class="flex items-center gap-4">
+                            <span class="text-neon-blue text-3xl">🤖</span>
+                            <span>Cursor AI (free tier)</span>
+                        </li>
+                        <li class="flex items-center gap-4">
+                            <span class="text-purple-glow text-3xl">🤖</span>
+                            <span>Cline + Droid CLI (open source)</span>
+                        </li>
+                        <li class="flex items-center gap-4">
+                            <span class="text-cyan-glow text-3xl">🤖</span>
+                            <span>Hugging Face Spaces (deploy models)</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="bg-gradient-to-r from-neon-blue/10 to-purple-glow/10 border-l-4 border-neon-blue rounded-lg p-6">
+                    <h4 class="text-xl font-bold text-cyan-glow mb-3">Continuous Learning:</h4>
+                    <ul class="space-y-2 text-lg">
+                        <li>• Follow latest LLM updates</li>
+                        <li>• Join AI developer communities</li>
+                        <li>• Test new tools monthly</li>
+                        <li>• Share findings, learn together</li>
+                    </ul>
+                </div>
+                <div class="mt-8 text-center">
+                    <p class="text-2xl italic text-neon-blue">"Free doesn't mean limited. It means strategic."</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- SLIDE 16: BAB 3 - RECAP & TASK -->
+        <section class="slide flex items-center justify-center w-full h-full p-8" data-slide="16">
+            <div class="glass-card rounded-3xl p-10 max-w-6xl shadow-2xl shadow-neon-blue/20">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="text-5xl">🛠️</div>
+                    <h2 class="text-3xl font-bold font-orbitron text-neon-blue">BAB 3: Recap & Action</h2>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="text-xl font-bold text-purple-glow mb-3">🎯 Key Takeaways:</h3>
+                        <ul class="space-y-2 text-base">
+                            <li>✓ 4 Pilar: Tools, AI Agents, Knowledge, Tech Stack</li>
+                            <li>✓ Backend vs Frontend - pahami keduanya</li>
+                            <li>✓ Tech stack + hosting = pasangan perfect</li>
+                            <li>✓ Free resources tersedia untuk semua</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-neon-blue/20 to-cyan-glow/20 border-2 border-cyan-glow rounded-xl p-5">
+                        <h3 class="text-xl font-bold text-cyan-glow mb-3">🎯 Your Task #3:</h3>
+                        <div class="space-y-2 text-base">
+                            <p class="font-semibold text-cyan-glow">SETUP TOOLKIT:</p>
+                            <ol class="space-y-1 text-sm ml-4">
+                                <li>1. Install: VS Code + 1 AI Agent (Cursor/Cline/Droid)</li>
+                                <li>2. Pilih tech stack untuk ide kamu (Laravel/Next.js?)</li>
+                                <li>3. Setup free AI API key (Claude/GPT)</li>
+                                <li>4. Screenshot setup kamu yang sudah ready!</li>
+                            </ol>
+                            <div class="mt-4 pt-3 border-t border-cyan-glow/30">
+                                <p class="text-cyan-glow font-bold text-sm">📤 Submit setup:</p>
+                                <p class="text-xs text-gray-300 mt-1">DM LinkedIn/Instagram: <span class="text-cyan-glow">@pendtiumpraz</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- SLIDE 17: BAB 4 - CHAPTER TITLE -->
+        <section class="slide flex items-center justify-center w-full h-full p-8" data-slide="17">
+            <div class="text-center relative z-10">
+                <div class="text-9xl font-black text-purple-glow opacity-10 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 animate-float font-orbitron">
+                    04
+                </div>
+                <h2 class="text-5xl md:text-6xl font-bold font-orbitron animate-glow-pulse relative z-10 mb-4">
+                    Blueprint to Reality
+                </h2>
+                <p class="text-2xl text-cyan-glow">Planning: Dimana 80% Kesuksesan Ditentukan</p>
+            </div>
+            <div class="absolute inset-0 opacity-20">
+                <img src="https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?w=1920&q=80" 
+                     alt="blueprint" class="w-full h-full object-cover">
+            </div>
+        </section>
+        
+        <!-- SLIDE 17: AI PLANNING PROCESS -->
+        <section class="slide flex items-center justify-center w-full h-full p-8" data-slide="17">
+            <div class="glass-card rounded-3xl p-12 max-w-6xl shadow-2xl shadow-neon-blue/20">
+                <h2 class="text-4xl font-bold font-orbitron text-neon-blue mb-8">From Idea to Structured Plan</h2>
+                <div class="space-y-6">
+                    <div class="border-l-4 border-neon-blue pl-6 py-3">
+                        <h3 class="text-2xl font-bold text-neon-blue mb-2">Step 1: Gather Documentation</h3>
+                        <ul class="space-y-2 text-lg text-gray-300">
+                            <li>• Find similar apps/references</li>
+                            <li>• Collect best practices</li>
+                            <li>• Screenshot inspirations</li>
+                        </ul>
+                    </div>
+                    <div class="border-l-4 border-purple-glow pl-6 py-3">
+                        <h3 class="text-2xl font-bold text-purple-glow mb-2">Step 2: AI Analysis</h3>
+                        <ul class="space-y-2 text-lg text-gray-300">
+                            <li>• Feed docs to AI agent</li>
+                            <li>• Request: Summary, Flow, UI/UX guide</li>
+                            <li>• Ask for brand identity suggestions</li>
+                        </ul>
+                    </div>
+                    <div class="border-l-4 border-cyan-glow pl-6 py-3">
+                        <h3 class="text-2xl font-bold text-cyan-glow mb-2">Step 3: Original Twist</h3>
+                        <ul class="space-y-2 text-lg text-gray-300">
+                            <li>• "Create original brand identity"</li>
+                            <li>• "Don't copy, innovate"</li>
+                            <li>• Make it uniquely yours</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- SLIDE 18: CRITICAL QUESTIONS -->
+        <section class="slide flex items-center justify-center w-full h-full p-8" data-slide="18">
+            <div class="glass-card rounded-3xl p-12 max-w-5xl shadow-2xl shadow-purple-glow/20">
+                <h2 class="text-4xl font-bold font-orbitron text-neon-blue mb-8">Crystallize Your Vision</h2>
+                <div class="space-y-8">
+                    <div>
+                        <h3 class="text-2xl font-bold text-purple-glow mb-4">What exactly are we building?</h3>
+                        <ul class="space-y-2 text-xl">
+                            <li>✓ Core features (MVP)</li>
+                            <li>✓ Nice-to-have features (v2)</li>
+                            <li>✓ Dealbreaker features</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-neon-blue mb-4">Which tech stack?</h3>
+                        <ul class="space-y-2 text-xl">
+                            <li>✓ Backend framework</li>
+                            <li>✓ Frontend library</li>
+                            <li>✓ Database type</li>
+                            <li>✓ Hosting platform</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mt-8 text-center">
+                    <p class="text-2xl font-bold text-neon-pink">Avoid Scope Creep: Lock it down before coding!</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- SLIDE 19: LOGIC & FUNCTIONALITY -->
+        <section class="slide flex items-center justify-center w-full h-full p-8" data-slide="19">
+            <div class="glass-card rounded-3xl p-12 max-w-6xl shadow-2xl shadow-neon-blue/20">
+                <h2 class="text-4xl font-bold font-orbitron text-neon-blue mb-8">Prevent Token Waste with Clear Logic</h2>
+                <div class="mb-8">
+                    <h3 class="text-2xl font-bold text-purple-glow mb-4">CRUD Best Practices:</h3>
+                    <ul class="space-y-3 text-xl">
+                        <li>✅ Table view for list</li>
+                        <li>✅ Sidebar modal for create/edit (NOT new pages!)</li>
+                        <li>✅ Inline delete confirmation</li>
+                        <li class="text-cyan-glow italic">Why? Less token usage, better UX</li>
+                    </ul>
+                </div>
+                <div class="bg-gradient-to-r from-neon-blue/10 to-purple-glow/10 rounded-xl p-6">
+                    <h3 class="text-2xl font-bold text-neon-blue mb-4">Role Management:</h3>
+                    <ul class="grid md:grid-cols-2 gap-3 text-lg">
+                        <li>• Super Admin level</li>
+                        <li>• Client/User levels</li>
+                        <li>• Dynamic role system</li>
+                        <li>• Permission matrix</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <!-- SLIDE 20: UI/UX SPECIFICATION -->
+        <section class="slide flex items-center justify-center w-full h-full p-8" data-slide="20">
+            <div class="glass-card rounded-3xl p-12 max-w-6xl shadow-2xl shadow-purple-glow/20">
+                <h2 class="text-4xl font-bold font-orbitron text-neon-blue mb-8">Design Language for AI</h2>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-2xl font-bold text-purple-glow mb-4">Visual Style:</h3>
+                        <ul class="space-y-2 text-lg">
+                            <li>🎨 Animation libraries (Three.js, GSAP)</li>
+                            <li>🌈 Color schemes (gradients, neon)</li>
+                            <li>✨ Background effects (particles, grids)</li>
+                            <li>🎯 Icon style (outline, filled)</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-neon-blue mb-4">Layout Decisions:</h3>
+                        <ul class="space-y-2 text-lg">
+                            <li>📐 Sidebar navigation with icons</li>
+                            <li>🃏 Card-based content display</li>
+                            <li>📱 Responsive breakpoints</li>
+                            <li>⏳ Loading states & transitions</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mt-8 bg-cyan-glow/10 border border-cyan-glow/30 rounded-lg p-6">
+                    <p class="text-xl text-center">Images: Request Unsplash integration - AI can search online!</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- SLIDE 21: MAGIC DELIVERABLES -->
+        <section class="slide flex items-center justify-center w-full h-full p-8" data-slide="21">
+            <div class="glass-card rounded-3xl p-12 max-w-6xl shadow-2xl shadow-neon-blue/20">
+                <h2 class="text-4xl font-bold font-orbitron text-neon-blue mb-8">Minta AI Bikin Ini Semua!</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-gradient-to-br from-neon-blue/20 to-cyan-glow/10 border border-neon-blue/30 rounded-xl p-6">
+                        <h3 class="text-2xl font-bold text-neon-blue mb-3">1. PRP</h3>
+                        <p class="text-lg mb-2">Product Requirement Prompt</p>
+                        <ul class="space-y-1 text-sm text-gray-300">
+                            <li>• Complete feature list</li>
+                            <li>• Technical specifications</li>
+                            <li>• Acceptance criteria</li>
+                        </ul>
+                    </div>
+                    <div class="bg-gradient-to-br from-purple-glow/20 to-neon-pink/10 border border-purple-glow/30 rounded-xl p-6">
+                        <h3 class="text-2xl font-bold text-purple-glow mb-3">2. Roadmap</h3>
+                        <p class="text-lg mb-2">Phase breakdown</p>
+                        <ul class="space-y-1 text-sm text-gray-300">
+                            <li>• Phase 1, 2, 3</li>
+                            <li>• Timeline estimates</li>
+                            <li>• Dependencies mapped</li>
+                        </ul>
+                    </div>
+                    <div class="bg-gradient-to-br from-cyan-glow/20 to-electric-blue/10 border border-cyan-glow/30 rounded-xl p-6">
+                        <h3 class="text-2xl font-bold text-cyan-glow mb-3">3. Task Breakdown</h3>
+                        <p class="text-lg mb-2">Granular action items</p>
+                        <ul class="space-y-1 text-sm text-gray-300">
+                            <li>• Priority levels</li>
+                            <li>• Sequence order</li>
+                            <li>• Time estimates</li>
+                        </ul>
+                    </div>
+                    <div class="bg-gradient-to-br from-neon-pink/20 to-purple-glow/10 border border-neon-pink/30 rounded-xl p-6">
+                        <h3 class="text-2xl font-bold text-neon-pink mb-3">4. ERD</h3>
+                        <p class="text-lg mb-2">Entity Relationship Diagram</p>
+                        <ul class="space-y-1 text-sm text-gray-300">
+                            <li>• Database schema</li>
+                            <li>• Relationships defined</li>
+                            <li>• Migration ready</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mt-8 text-center">
+                    <p class="text-xl text-neon-blue">"Based on requirements above, create PRP, Roadmap, Task Breakdown, and ERD."</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- SLIDE 22: BAB 4 - RECAP & TASK -->
+        <section class="slide flex items-center justify-center w-full h-full p-8" data-slide="22">
+            <div class="glass-card rounded-3xl p-10 max-w-6xl shadow-2xl shadow-neon-blue/20">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="text-5xl">📋</div>
+                    <h2 class="text-3xl font-bold font-orbitron text-neon-blue">BAB 4: Recap & Action</h2>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="text-xl font-bold text-purple-glow mb-3">🎯 Key Takeaways:</h3>
+                        <ul class="space-y-2 text-base">
+                            <li>✓ Planning = 80% kesuksesan ditentukan di sini</li>
+                            <li>✓ Minta AI bikin: PRP, Roadmap, Task Breakdown, ERD</li>
+                            <li>✓ Spesifik dengan logic & UI/UX requirements</li>
+                            <li>✓ Lock scope sebelum coding = prevent token waste</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-purple-glow/20 to-neon-pink/20 border-2 border-neon-pink rounded-xl p-5">
+                        <h3 class="text-xl font-bold text-neon-pink mb-3">🎯 Your Task #4:</h3>
+                        <div class="space-y-2 text-base">
+                            <p class="font-semibold text-cyan-glow">CREATE BLUEPRINT:</p>
+                            <ol class="space-y-1 text-sm ml-4">
+                                <li>1. Minta AI analyze ide kamu dari Task #2</li>
+                                <li>2. Generate: PRP + Roadmap + ERD lengkap</li>
+                                <li>3. Review & refine sampai 100% jelas</li>
+                                <li>4. Breakdown ke task-task kecil (max 2 jam/task)</li>
+                            </ol>
+                            <div class="mt-4 pt-3 border-t border-neon-pink/30">
+                                <p class="text-cyan-glow font-bold text-sm">📤 Submit planning:</p>
+                                <p class="text-xs text-gray-300 mt-1">DM LinkedIn/Instagram: <span class="text-neon-pink">@pendtiumpraz</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- SLIDE 23: BREAK - KOMUNITAS & ABSENSI -->
+        <section class="slide flex items-center justify-center w-full h-full p-8" data-slide="23">
+            <div class="glass-card rounded-3xl p-12 max-w-6xl shadow-2xl shadow-neon-pink/30 relative z-10">
+                <div class="text-center mb-8">
+                    <div class="text-7xl mb-4">☕</div>
+                    <h2 class="text-5xl font-bold font-orbitron bg-gradient-to-r from-neon-pink to-purple-glow bg-clip-text text-transparent mb-4">
+                        Take a Break!
+                    </h2>
+                    <p class="text-2xl text-cyan-glow">Sebelum lanjut eksekusi, ada info penting nih! 👇</p>
+                </div>
+                
+                <div class="flex gap-6 mb-8">
+                    <!-- Join Komunitas -->
+                    <div class="flex-1 bg-gradient-to-r from-neon-blue/20 to-purple-glow/20 border-2 border-neon-blue rounded-xl p-8">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="text-5xl">🌐</div>
+                            <h3 class="text-2xl font-bold text-neon-blue">Join Komunitas Patria Developer</h3>
+                        </div>
+                        <p class="text-lg text-gray-300 mb-4">
+                            Gabung dengan developer Indonesia yang sedang belajar AI-Powered Development!
+                        </p>
+                        <ul class="space-y-2 text-base ml-6">
+                            <li>✓ Diskusi project bareng</li>
+                            <li>✓ Share tips & tricks</li>
+                            <li>✓ Networking dengan sesama developer</li>
+                            <li>✓ Update tech terbaru</li>
+                        </ul>
+                        <div class="mt-6 pt-6 border-t border-neon-blue/30">
+                            <p class="text-center text-lg">
+                                <span class="text-cyan-glow font-bold">Info lengkap:</span> 
+                                <span class="text-neon-blue">Akan dijelaskan oleh host</span>
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Absensi Kehadiran -->
+                    <div class="flex-1 bg-gradient-to-r from-neon-pink/20 to-orange-500/20 border-2 border-neon-pink rounded-xl p-8">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="text-5xl">📝</div>
+                            <h3 class="text-2xl font-bold text-neon-pink">Absensi Kehadiran</h3>
+                        </div>
+                        <p class="text-lg text-gray-300 mb-4">
+                            Isi form absensi kehadiran untuk dapatkan <span class="text-neon-blue font-bold">BONUS MENARIK!</span>
+                        </p>
+                        <div class="bg-dark-navy/70 rounded-lg p-4 mb-4">
+                            <p class="text-xl font-bold text-center text-cyan-glow mb-3">🎁 Bonus untuk peserta aktif:</p>
+                            <ul class="space-y-2 text-base">
+                                <li>📋 LIST FREE Penyedia API KEY</li>
+                                <li>🤖 LIST AI Tools & Platforms</li>
+                                <li>⚡ LIST CLI untuk Development</li>
+                                <li>📹 Akses Recording Webinar</li>
+                            </ul>
+                        </div>
+                        <div class="mt-6 pt-6 border-t border-neon-pink/30">
+                            <p class="text-center text-lg">
+                                <span class="text-cyan-glow font-bold">Link absensi:</span> 
+                                <span class="text-neon-pink">Cek di chat webinar atau ask host!</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <p class="text-3xl font-bold text-purple-glow animate-pulse">
+                        Siap lanjut eksekusi? Let's code! 🚀
+                    </p>
+                </div>
+            </div>
+            <div class="absolute inset-0 opacity-15">
+                <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1920&q=80" 
+                     alt="community" class="w-full h-full object-cover">
+            </div>
+        </section>
+        
+        <!-- SLIDE 24: BAB 5 - CHAPTER TITLE -->
+        <section class="slide flex items-center justify-center w-full h-full p-8" data-slide="24">
+            <div class="text-center relative z-10">
+                <div class="text-9xl font-black text-neon-blue opacity-10 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 animate-float font-orbitron">
+                    05
+                </div>
+                <h2 class="text-5xl md:text-6xl font-bold font-orbitron animate-glow-pulse relative z-10 mb-4">
+                    Execution Mode
+                </h2>
+                <p class="text-2xl text-cyan-glow">Talk is Cheap. Show Me The Code.</p>
+            </div>
+            <div class="absolute inset-0 opacity-20">
+                <img src="https://images.unsplash.com/photo-1504639725590-34d0984388bd?w=1920&q=80" 
+                     alt="coding action" class="w-full h-full object-cover">
+            </div>
+        </section>
+        
+        <!-- SLIDE 23: SEQUENTIAL FLOW -->
+        <section class="slide flex items-center justify-center w-full h-full p-8" data-slide="23">
+            <div class="glass-card rounded-3xl p-12 max-w-6xl shadow-2xl shadow-neon-blue/20">
+                <h2 class="text-4xl font-bold font-orbitron text-neon-blue mb-8">Backend First, Always</h2>
+                <div class="bg-gradient-to-r from-red-600/20 to-orange-500/20 border border-orange-500/30 rounded-xl p-8 mb-6">
+                    <h3 class="text-2xl font-bold text-orange-400 mb-4">Laravel Example - Exact Order:</h3>
+                    <ol class="space-y-3 text-lg">
+                        <li><span class="text-neon-blue font-bold">1.</span> Database Migration - SELURUH tables sesuai ERD</li>
+                        <li><span class="text-neon-blue font-bold">2.</span> Models - SELURUH models dengan relationships</li>
+                        <li><span class="text-neon-blue font-bold">3.</span> Seeders - Dummy data SELURUH tables</li>
+                        <li><span class="text-neon-blue font-bold">4.</span> Controllers - SELURUH CRUD + API controllers</li>
+                        <li><span class="text-neon-blue font-bold">5.</span> Routing - SELURUH routes (web + API)</li>
+                        <li><span class="text-neon-blue font-bold">6.</span> Views - SELURUH CRUD views sesuai PRP</li>
+                    </ol>
+                </div>
+                <div class="text-center">
+                    <p class="text-xl text-purple-glow">Why Sequential? Each step validates previous one. Catch errors early.</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- SLIDE 24: AI TASK BREAKDOWN -->
+        <section class="slide flex items-center justify-center w-full h-full p-8" data-slide="24">
+            <div class="glass-card rounded-3xl p-12 max-w-6xl shadow-2xl shadow-purple-glow/20">
+                <h2 class="text-4xl font-bold font-orbitron text-neon-blue mb-8">Watch AI Orchestrate</h2>
+                <div class="mb-8">
+                    <h3 class="text-2xl font-bold text-purple-glow mb-4">What Happens:</h3>
+                    <ul class="space-y-3 text-xl">
+                        <li>✓ AI breaks your request into subtasks</li>
+                        <li>✓ Shows progress in real-time</li>
+                        <li>✓ Validates each step before next</li>
+                        <li>✓ Self-corrects when errors occur</li>
+                    </ul>
+                </div>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-gradient-to-br from-purple-glow/20 to-neon-pink/10 border border-purple-glow/30 rounded-xl p-6">
+                        <h4 class="text-xl font-bold text-purple-glow mb-3">Claude Code (Paid)</h4>
+                        <p class="text-lg">Claude-Flow orchestrator</p>
+                        <p class="text-neon-blue font-bold text-2xl mt-2">8-10 agents parallel</p>
+                    </div>
+                    <div class="bg-gradient-to-br from-neon-blue/20 to-cyan-glow/10 border border-neon-blue/30 rounded-xl p-6">
+                        <h4 class="text-xl font-bold text-neon-blue mb-3">Droid CLI (Free)</h4>
+                        <p class="text-lg">Orchestrator on GitHub</p>
+                        <p class="text-cyan-glow font-bold text-2xl mt-2">Sequential execution</p>
+                    </div>
+                </div>
+                <div class="mt-8 text-center">
+                    <p class="text-2xl font-bold text-neon-blue">Result: Hours of work done in minutes</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- SLIDE 25: TYPESCRIPT FLOW -->
+        <section class="slide flex items-center justify-center w-full h-full p-8" data-slide="25">
+            <div class="glass-card rounded-3xl p-12 max-w-6xl shadow-2xl shadow-neon-blue/20">
+                <h2 class="text-4xl font-bold font-orbitron text-neon-blue mb-8">Next.js / React Flow</h2>
+                <div class="bg-gradient-to-r from-neon-blue/20 to-cyan-glow/20 border border-neon-blue/30 rounded-xl p-8 mb-6">
+                    <h3 class="text-2xl font-bold text-cyan-glow mb-4">TypeScript Projects - Critical Addition:</h3>
+                    <div class="bg-dark-navy/50 rounded-lg p-6 font-mono text-lg mb-4">
+                        <p class="text-purple-glow">"Setelah selesai 10 files, jalankan:</p>
+                        <p class="text-neon-blue mt-2">npx tsc --noEmit</p>
+                        <p class="text-cyan-glow mt-2">Dan pastikan ZERO errors sebelum lanjut."</p>
+                    </div>
+                    <p class="text-xl text-neon-pink">Why? Prevent error accumulation (500-1000+ errors di akhir!)</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="text-center p-6 bg-red-900/20 rounded-xl border border-red-500/30">
+                        <p class="text-4xl font-bold text-red-400">4+ hours</p>
+                        <p class="text-lg text-gray-300">Manual debugging 1000 errors</p>
+                    </div>
+                    <div class="text-center p-6 bg-green-900/20 rounded-xl border border-green-500/30">
+                        <p class="text-4xl font-bold text-green-400">30 minutes</p>
+                        <p class="text-lg text-gray-300">AI batch processing</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- SLIDE 26: EXECUTION MANTRAS -->
+        <section class="slide flex items-center justify-center w-full h-full p-8" data-slide="26">
+            <div class="glass-card rounded-3xl p-12 max-w-5xl shadow-2xl shadow-purple-glow/20">
+                <h2 class="text-4xl font-bold font-orbitron text-neon-blue mb-8">Speed + Quality = AI Pair Programming</h2>
+                <div class="space-y-4 text-xl mb-8">
+                    <div class="flex items-center gap-4">
+                        <span class="text-4xl">🚀</span>
+                        <span>Be specific with instructions</span>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <span class="text-4xl">🎯</span>
+                        <span>One phase at a time</span>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <span class="text-4xl">🔍</span>
+                        <span>Validate after each major step</span>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <span class="text-4xl">📝</span>
+                        <span>Let AI document as it goes</span>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <span class="text-4xl">⚡</span>
+                        <span>Trust the process, verify the output</span>
+                    </div>
+                </div>
+                <div class="bg-gradient-to-r from-red-900/30 to-neon-pink/20 border-l-4 border-red-500 rounded-lg p-6 mb-4">
+                    <p class="text-lg"><span class="text-red-400 font-bold">Common Pitfall:</span> Letting AI run wild without checkpoints</p>
+                </div>
+                <div class="bg-gradient-to-r from-green-900/30 to-neon-blue/20 border-l-4 border-green-500 rounded-lg p-6">
+                    <p class="text-lg"><span class="text-green-400 font-bold">Better Approach:</span> Structured execution → Review → Continue</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- SLIDE 27: BAB 5 - RECAP & TASK -->
+        <section class="slide flex items-center justify-center w-full h-full p-8" data-slide="27">
+            <div class="glass-card rounded-3xl p-10 max-w-6xl shadow-2xl shadow-neon-blue/20">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="text-5xl">⚡</div>
+                    <h2 class="text-3xl font-bold font-orbitron text-neon-blue">BAB 5: Recap & Action</h2>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="text-xl font-bold text-purple-glow mb-3">🎯 Key Takeaways:</h3>
+                        <ul class="space-y-2 text-base">
+                            <li>✓ Backend first, sequential execution</li>
+                            <li>✓ TypeScript: check every 10 files (npx tsc --noEmit)</li>
+                            <li>✓ AI orchestrator = hours → minutes</li>
+                            <li>✓ Validate after each major step</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-neon-blue/20 to-purple-glow/20 border-2 border-neon-blue rounded-xl p-5">
+                        <h3 class="text-xl font-bold text-neon-blue mb-3">🎯 Your Task #5:</h3>
+                        <div class="space-y-2 text-base">
+                            <p class="font-semibold text-cyan-glow">BUILD YOUR MVP:</p>
+                            <ol class="space-y-1 text-sm ml-4">
+                                <li>1. Eksekusi dengan AI: Migration → Models → Seeders</li>
+                                <li>2. Lanjut: Controllers → Routes → Views</li>
+                                <li>3. Test setiap step sebelum lanjut</li>
+                                <li>4. Target: Core features working in 1-3 hari</li>
+                            </ol>
+                            <div class="mt-4 pt-3 border-t border-neon-blue/30">
+                                <p class="text-cyan-glow font-bold text-sm">📤 Submit progress:</p>
+                                <p class="text-xs text-gray-300 mt-1">DM LinkedIn/Instagram: <span class="text-neon-blue">@pendtiumpraz</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- SLIDE 28: BAB 6 - CHAPTER TITLE -->
+        <section class="slide flex items-center justify-center w-full h-full p-8" data-slide="28">
+            <div class="text-center relative z-10">
+                <div class="text-9xl font-black text-purple-glow opacity-10 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 animate-float font-orbitron">
+                    06
+                </div>
+                <h2 class="text-5xl md:text-6xl font-bold font-orbitron animate-glow-pulse relative z-10 mb-4">
+                    Test Everything Twice
+                </h2>
+                <p class="text-2xl text-cyan-glow">You're Not Done Until It's Bulletproof</p>
+            </div>
+            <div class="absolute inset-0 opacity-20">
+                <img src="https://images.unsplash.com/photo-1516382799247-87df95d790b7?w=1920&q=80" 
+                     alt="quality check" class="w-full h-full object-cover">
+            </div>
+        </section>
+        
+        <!-- SLIDE 28: ROLE SWITCH -->
+        <section class="slide flex items-center justify-center w-full h-full p-8" data-slide="28">
+            <div class="glass-card rounded-3xl p-12 max-w-6xl shadow-2xl shadow-neon-blue/20">
+                <h2 class="text-4xl font-bold font-orbitron text-neon-blue mb-8">PM → Developer → QA</h2>
+                <div class="mb-8">
+                    <h3 class="text-2xl font-bold text-purple-glow mb-6">Complete Flow Testing:</h3>
+                    <div class="grid md:grid-cols-2 gap-4 text-lg">
+                        <div class="flex items-center gap-3">
+                            <span class="text-neon-blue text-2xl">✅</span>
+                            <span>Authentication (login, register, forgot password)</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="text-neon-blue text-2xl">✅</span>
+                            <span>All CRUD operations per module</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="text-neon-blue text-2xl">✅</span>
+                            <span>Role-based access control</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="text-neon-blue text-2xl">✅</span>
+                            <span>API endpoints</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="text-neon-blue text-2xl">✅</span>
+                            <span>Form validations</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="text-neon-blue text-2xl">✅</span>
+                            <span>Error handling</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gradient-to-r from-neon-blue/10 to-purple-glow/10 border-2 border-neon-blue rounded-xl p-6">
+                    <p class="text-2xl text-center text-cyan-glow font-bold">"Would I launch this in production right now?"</p>
+                    <p class="text-center text-lg text-gray-300 mt-2">If Answer = No: Keep testing and fixing</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- SLIDE 29: BUG REPORTING -->
+        <section class="slide flex items-center justify-center w-full h-full p-8" data-slide="29">
+            <div class="glass-card rounded-3xl p-12 max-w-5xl shadow-2xl shadow-purple-glow/20">
+                <h2 class="text-4xl font-bold font-orbitron text-neon-blue mb-8">Clear Communication = Fast Fixes</h2>
+                <div class="bg-dark-navy/70 rounded-xl p-8 border border-neon-blue/30 mb-6">
+                    <h3 class="text-2xl font-bold text-cyan-glow mb-4">Good Bug Report Template:</h3>
+                    <div class="space-y-3 text-lg font-mono">
+                        <p><span class="text-purple-glow">Periksa</span> <span class="text-neon-blue">[module name]</span>:</p>
+                        <p>- <span class="text-neon-pink">Issue:</span> [specific function] tidak berfungsi</p>
+                        <p>- <span class="text-neon-pink">Where:</span> View, Controller, atau Migration</p>
+                        <p>- <span class="text-neon-pink">Expected:</span> [what should happen]</p>
+                        <p>- <span class="text-neon-pink">Actual:</span> [what's happening]</p>
+                        <p class="mt-4 text-cyan-glow">Tolong cek dan sinkronkan semua layers.</p>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <p class="text-3xl font-bold text-neon-blue">AI Response Time:</p>
+                    <p class="text-5xl font-bold text-purple-glow mt-2">1-3 menit</p>
+                    <p class="text-xl text-gray-300 mt-2">untuk full diagnosis + fix</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- SLIDE 30: TYPESCRIPT ERROR MASSACRE -->
+        <section class="slide flex items-center justify-center w-full h-full p-8" data-slide="30">
+            <div class="glass-card rounded-3xl p-12 max-w-6xl shadow-2xl shadow-neon-blue/20">
+                <h2 class="text-4xl font-bold font-orbitron text-neon-blue mb-8">1000 Errors → 0 in 30 Minutes</h2>
+                <div class="grid md:grid-cols-2 gap-8 mb-8">
+                    <div>
+                        <h3 class="text-2xl font-bold text-red-400 mb-4">Initial State:</h3>
+                        <p class="text-6xl font-bold text-red-500 mb-2">500-1000</p>
+                        <p class="text-xl text-gray-300">TypeScript errors (normal for MVP)</p>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-green-400 mb-4">Final State:</h3>
+                        <p class="text-6xl font-bold text-green-500 mb-2">0</p>
+                        <p class="text-xl text-gray-300">Errors after AI batch process</p>
+                    </div>
+                </div>
+                <div class="space-y-3 text-lg">
+                    <p>🔄 AI handles 250-300 errors per iteration</p>
+                    <p>🔄 4 iterations = clean slate</p>
+                    <p>⏱️ Each iteration: 5-10 minutes</p>
+                    <p>⚡ Total time: ~30 minutes</p>
+                </div>
+                <div class="mt-8 text-center">
+                    <p class="text-xl text-gray-400">vs Manual: <span class="text-red-400 font-bold text-2xl">Days</span> of developer frustration</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- SLIDE 31: QA POWER PROMPT -->
+        <section class="slide flex items-center justify-center w-full h-full p-8" data-slide="31">
+            <div class="glass-card rounded-3xl p-12 max-w-6xl shadow-2xl shadow-purple-glow/20">
+                <h2 class="text-4xl font-bold font-orbitron text-neon-blue mb-8">Automated Validation Protocol</h2>
+                <div class="bg-dark-navy/70 rounded-xl p-8 border border-purple-glow/30 mb-6">
+                    <h3 class="text-2xl font-bold text-purple-glow mb-4">Copy-Paste This:</h3>
+                    <div class="space-y-2 text-lg font-mono text-gray-300">
+                        <p>Lakukan <span class="text-neon-blue">npx tsc --noEmit</span> setiap selesai 10 task.</p>
+                        <p className="mt-4">Buat Dokumen Checking untuk validasi:</p>
+                        <ul class="space-y-1 ml-4 mt-2">
+                            <li>✅ VIEW consistency</li>
+                            <li>✅ MODEL synchronization</li>
+                            <li>✅ MIGRATION accuracy</li>
+                            <li>✅ Relationship integrity</li>
+                        </ul>
+                        <p class="mt-4">Berikan kesimpulan: Apa yang sudah sinkron, apa yang belum.</p>
+                        <p class="mt-2 text-neon-pink">Jika ada yang belum sinkron: PERBAIKI.</p>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <p class="text-2xl font-bold text-neon-blue">Result: Self-Healing Codebase ✨</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- SLIDE 32: SHIP READY CRITERIA -->
+        <section class="slide flex items-center justify-center w-full h-full p-8" data-slide="32">
+            <div class="glass-card rounded-3xl p-12 max-w-6xl shadow-2xl shadow-neon-blue/20">
+                <h2 class="text-4xl font-bold font-orbitron text-neon-blue mb-8">Ship-Ready Criteria</h2>
+                <div class="grid md:grid-cols-2 gap-4 text-lg mb-8">
+                    <div class="flex items-center gap-3">
+                        <span class="text-neon-blue text-2xl">✅</span>
+                        <span>All features working as specified</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-neon-blue text-2xl">✅</span>
+                        <span>Zero TypeScript/compilation errors</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-neon-blue text-2xl">✅</span>
+                        <span>All CRUD operations tested</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-neon-blue text-2xl">✅</span>
+                        <span>Mobile responsive</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-neon-blue text-2xl">✅</span>
+                        <span>Loading states implemented</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-neon-blue text-2xl">✅</span>
+                        <span>Error messages user-friendly</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-neon-blue text-2xl">✅</span>
+                        <span>Security basics covered</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-neon-blue text-2xl">✅</span>
+                        <span>Performance acceptable</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-neon-blue text-2xl">✅</span>
+                        <span>Documentation updated</span>
+                    </div>
+                </div>
+                <div class="bg-gradient-to-r from-purple-glow/20 to-neon-blue/20 border-2 border-purple-glow rounded-xl p-6">
+                    <p class="text-xl text-center font-bold text-cyan-glow">Remember: QA on every feature addition, not just initial build</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- SLIDE 33: BAB 6 - RECAP & TASK -->
+        <section class="slide flex items-center justify-center w-full h-full p-8" data-slide="33">
+            <div class="glass-card rounded-3xl p-10 max-w-6xl shadow-2xl shadow-neon-blue/20">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="text-5xl">✅</div>
+                    <h2 class="text-3xl font-bold font-orbitron text-neon-blue">BAB 6: Recap & Action</h2>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="text-xl font-bold text-purple-glow mb-3">🎯 Key Takeaways:</h3>
+                        <ul class="space-y-2 text-base">
+                            <li>✓ Test every flow: Auth, CRUD, Roles, API</li>
+                            <li>✓ 1000 TS errors → 0 in 30 minutes dengan AI</li>
+                            <li>✓ QA Power Prompt untuk auto-validation</li>
+                            <li>✓ Ship-ready criteria: 9 checklist items</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-purple-glow/20 to-cyan-glow/20 border-2 border-purple-glow rounded-xl p-5">
+                        <h3 class="text-xl font-bold text-purple-glow mb-3">🎯 Your Task #6:</h3>
+                        <div class="space-y-2 text-base">
+                            <p class="font-semibold text-cyan-glow">QA YOUR APP:</p>
+                            <ol class="space-y-1 text-sm ml-4">
+                                <li>1. Test SEMUA flow yang sudah dibuat</li>
+                                <li>2. Fix bugs dengan clear bug reports ke AI</li>
+                                <li>3. Run QA Power Prompt untuk validasi</li>
+                                <li>4. Checklist: All 9 ship-ready criteria ✓</li>
+                            </ol>
+                            <div class="mt-4 pt-3 border-t border-purple-glow/30">
+                                <p class="text-cyan-glow font-bold text-sm">📤 Submit testing:</p>
+                                <p class="text-xs text-gray-300 mt-1">DM LinkedIn/Instagram: <span class="text-purple-glow">@pendtiumpraz</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- SLIDE 34: BAB 7 - CHAPTER TITLE -->
+        <section class="slide flex items-center justify-center w-full h-full p-8" data-slide="34">
+            <div class="text-center relative z-10">
+                <div class="text-9xl font-black text-neon-blue opacity-10 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 animate-float font-orbitron">
+                    07
+                </div>
+                <h2 class="text-5xl md:text-6xl font-bold font-orbitron animate-glow-pulse relative z-10 mb-4">
+                    Go Live
+                </h2>
+                <p class="text-2xl text-cyan-glow">Dari Localhost ke Internet: Launch Day!</p>
+            </div>
+            <div class="absolute inset-0 opacity-20">
+                <img src="https://images.unsplash.com/photo-1516849677043-ef67c9557e16?w=1920&q=80" 
+                     alt="rocket launching" class="w-full h-full object-cover">
+            </div>
+        </section>
+        
+        <!-- SLIDE 34: PRE-DEPLOYMENT PROTOCOL -->
+        <section class="slide flex items-center justify-center w-full h-full p-8" data-slide="34">
+            <div class="glass-card rounded-3xl p-12 max-w-6xl shadow-2xl shadow-neon-blue/20">
+                <h2 class="text-4xl font-bold font-orbitron text-neon-blue mb-8">QA Every Single Time</h2>
+                <div class="bg-gradient-to-r from-neon-pink/20 to-red-500/20 border-2 border-neon-pink rounded-xl p-6 mb-8">
+                    <h3 class="text-2xl font-bold text-neon-pink mb-4">Golden Rule:</h3>
+                    <p class="text-xl">Setiap revisi atau fitur baru:</p>
+                    <div class="ml-6 mt-3 space-y-2 text-lg">
+                        <p>→ QA lengkap</p>
+                        <p>→ Git commit dengan message jelas</p>
+                        <p>→ THEN push to main</p>
+                    </div>
+                </div>
+                <div class="mb-6">
+                    <h3 class="text-2xl font-bold text-purple-glow mb-4">Workflow:</h3>
+                    <ol class="space-y-2 text-lg">
+                        <li>1. Feature complete</li>
+                        <li>2. Local testing</li>
+                        <li>3. Fix all bugs</li>
+                        <li>4. QA checklist passed</li>
+                        <li>5. Commit</li>
+                        <li>6. Deploy</li>
+                    </ol>
+                </div>
+                <div class="text-center">
+                    <p class="text-xl text-red-400">Production bugs = User frustration = Reputation damage</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- SLIDE 35: GIT SETUP -->
+        <section class="slide flex items-center justify-center w-full h-full p-8" data-slide="35">
+            <div class="glass-card rounded-3xl p-12 max-w-6xl shadow-2xl shadow-purple-glow/20">
+                <h2 class="text-4xl font-bold font-orbitron text-neon-blue mb-8">Version Control Matters</h2>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="bg-gradient-to-br from-purple-glow/20 to-neon-pink/10 border border-purple-glow/30 rounded-xl p-8">
+                        <h3 class="text-2xl font-bold text-purple-glow mb-4">Claude Code Users:</h3>
+                        <ul class="space-y-2 text-lg">
+                            <li>✓ AI creates repo automatically</li>
+                            <li>✓ Initializes .gitignore</li>
+                            <li>✓ First commit handled</li>
+                            <li>✓ Push to GitHub/GitLab</li>
+                        </ul>
+                    </div>
+                    <div class="bg-gradient-to-br from-neon-blue/20 to-cyan-glow/10 border border-neon-blue/30 rounded-xl p-8">
+                        <h3 class="text-2xl font-bold text-neon-blue mb-4">CLI Users (Droid, Cline):</h3>
+                        <ul class="space-y-2 text-lg">
+                            <li>• Manual git init</li>
+                            <li>• Create repo on GitHub first</li>
+                            <li>• Connect remote</li>
+                            <li>• Push manually</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mt-8 text-center">
+                    <p class="text-xl text-cyan-glow">Commit messages = Future documentation</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- SLIDE 36: PLATFORM DEPLOY -->
+        <section class="slide flex items-center justify-center w-full h-full p-8" data-slide="36">
+            <div class="glass-card rounded-3xl p-12 max-w-6xl shadow-2xl shadow-neon-blue/20">
+                <h2 class="text-4xl font-bold font-orbitron text-neon-blue mb-8">Know Your Hosting Platform</h2>
+                <div class="space-y-6">
+                    <div class="bg-gradient-to-r from-neon-blue/20 to-cyan-glow/20 border border-neon-blue/30 rounded-xl p-8">
+                        <h3 class="text-2xl font-bold text-neon-blue mb-4">Vercel (Next.js/React)</h3>
+                        <ul class="space-y-2 text-lg">
+                            <li>✓ Connect GitHub repo</li>
+                            <li>✓ Auto-deploy on push</li>
+                            <li>✓ Environment variables in dashboard</li>
+                            <li>✓ Custom domains free</li>
+                        </ul>
+                    </div>
+                    <div class="bg-gradient-to-r from-orange-600/20 to-red-500/20 border border-orange-500/30 rounded-xl p-8">
+                        <h3 class="text-2xl font-bold text-orange-400 mb-4">DomaiNesia/RumahWeb (Laravel)</h3>
+                        <ul class="space-y-2 text-lg">
+                            <li>• SSH/FTP access</li>
+                            <li>• Upload files to public_html</li>
+                            <li>• Database setup via cPanel</li>
+                            <li>• Run composer install</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mt-8 text-center">
+                    <p class="text-xl text-purple-glow">Each platform has quirks. Document your process.</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- SLIDE 37: POST-DEPLOY MONITORING -->
+        <section class="slide flex items-center justify-center w-full h-full p-8" data-slide="37">
+            <div class="glass-card rounded-3xl p-12 max-w-6xl shadow-2xl shadow-purple-glow/20">
+                <h2 class="text-4xl font-bold font-orbitron text-neon-blue mb-8">Launch ≠ Finished</h2>
+                <div class="grid md:grid-cols-2 gap-8 mb-8">
+                    <div>
+                        <h3 class="text-2xl font-bold text-purple-glow mb-4">Monitor:</h3>
+                        <ul class="space-y-3 text-xl">
+                            <li>📊 Error logs</li>
+                            <li>💬 User feedback</li>
+                            <li>⚡ Performance metrics</li>
+                            <li>✅ Uptime status</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-neon-blue mb-4">Growth Phase:</h3>
+                        <ul class="space-y-3 text-xl">
+                            <li>🚀 Feature requests</li>
+                            <li>📈 Scalability adjustments</li>
+                            <li>🔒 Security updates</li>
+                            <li>⚡ Performance optimization</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="bg-gradient-to-r from-neon-blue/10 to-purple-glow/10 border-2 border-neon-blue rounded-xl p-6">
+                    <p class="text-2xl text-center font-bold text-cyan-glow">Product is never "done", it evolves</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- SLIDE 38: BAB 7 - RECAP & TASK -->
+        <section class="slide flex items-center justify-center w-full h-full p-8" data-slide="38">
+            <div class="glass-card rounded-3xl p-10 max-w-6xl shadow-2xl shadow-neon-blue/20">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="text-5xl">🚀</div>
+                    <h2 class="text-3xl font-bold font-orbitron text-neon-blue">BAB 7: Recap & Action</h2>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="text-xl font-bold text-purple-glow mb-3">🎯 Key Takeaways:</h3>
+                        <ul class="space-y-2 text-base">
+                            <li>✓ QA before every push to production</li>
+                            <li>✓ Git commit messages = future documentation</li>
+                            <li>✓ Platform-specific deployment process</li>
+                            <li>✓ Launch ≠ Finished - monitor & iterate</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-neon-blue/20 to-neon-pink/20 border-2 border-neon-blue rounded-xl p-5">
+                        <h3 class="text-xl font-bold text-neon-blue mb-3">🎯 Your Task #7:</h3>
+                        <div class="space-y-2 text-base">
+                            <p class="font-semibold text-cyan-glow">GO LIVE:</p>
+                            <ol class="space-y-1 text-sm ml-4">
+                                <li>1. Push ke GitHub/GitLab (public repo)</li>
+                                <li>2. Deploy ke Vercel/Netlify/Hosting pilihan</li>
+                                <li>3. Setup custom domain (optional)</li>
+                                <li>4. Test live URL - pastikan semua works!</li>
+                            </ol>
+                            <div class="mt-4 pt-3 border-t border-neon-blue/30">
+                                <p class="text-cyan-glow font-bold text-sm">📤 Submit live app:</p>
+                                <p class="text-xs text-gray-300 mt-1">DM LinkedIn/Instagram: <span class="text-neon-blue">@pendtiumpraz</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- SLIDE 39: BAB 8 - CHAPTER TITLE -->
+        <section class="slide flex items-center justify-center w-full h-full p-8" data-slide="39">
+            <div class="text-center relative z-10">
+                <div class="text-9xl font-black text-purple-glow opacity-10 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 animate-float font-orbitron">
+                    08
+                </div>
+                <h2 class="text-5xl md:text-6xl font-bold font-orbitron animate-glow-pulse relative z-10 mb-4">
+                    Proof of Concept
+                </h2>
+                <p class="text-2xl text-cyan-glow">Show, Don't Tell: Real Projects, Real Results</p>
+            </div>
+            <div class="absolute inset-0 opacity-20">
+                <img src="https://images.unsplash.com/photo-1487014679447-9f8336841d58?w=1920&q=80" 
+                     alt="portfolio" class="w-full h-full object-cover">
+            </div>
+        </section>
+        
+        <!-- SLIDE 39: ONLINE PROJECTS -->
+        <section class="slide flex items-center justify-center w-full h-full p-8" data-slide="39">
+            <div class="glass-card rounded-3xl p-12 max-w-6xl shadow-2xl shadow-neon-blue/20">
+                <h2 class="text-4xl font-bold font-orbitron text-neon-blue mb-8">Built in Days, Not Months</h2>
+                <div class="grid md:grid-cols-2 gap-4 text-lg">
+                    <div class="bg-gradient-to-r from-neon-blue/10 to-cyan-glow/10 border-l-4 border-neon-blue p-4 rounded">
+                        <p class="font-bold text-neon-blue">medwell.esteh.id</p>
+                        <p class="text-gray-300">Healthcare Platform - 1 malam</p>
+                    </div>
+                    <div class="bg-gradient-to-r from-purple-glow/10 to-neon-pink/10 border-l-4 border-purple-glow p-4 rounded">
+                        <p class="font-bold text-purple-glow">dibeli-platform.vercel.app</p>
+                        <p class="text-gray-300">E-commerce - 1 malam</p>
+                    </div>
+                    <div class="bg-gradient-to-r from-cyan-glow/10 to-electric-blue/10 border-l-4 border-cyan-glow p-4 rounded">
+                        <p class="font-bold text-cyan-glow">stt-project-drab.vercel.app</p>
+                        <p class="text-gray-300">STT System - 1 malam</p>
+                    </div>
+                    <div class="bg-gradient-to-r from-neon-pink/10 to-purple-glow/10 border-l-4 border-neon-pink p-4 rounded">
+                        <p class="font-bold text-neon-pink">toko-digital-one.vercel.app</p>
+                        <p class="text-gray-300">Digital Store - 3 malam</p>
+                    </div>
+                    <div class="bg-gradient-to-r from-neon-blue/10 to-purple-glow/10 border-l-4 border-neon-blue p-4 rounded">
+                        <p class="font-bold text-neon-blue">pondok-digital.vercel.app</p>
+                        <p class="text-gray-300">Islamic School - 7 malam</p>
+                    </div>
+                    <div class="bg-gradient-to-r from-purple-glow/10 to-neon-blue/10 border-l-4 border-purple-glow p-4 rounded">
+                        <p class="font-bold text-purple-glow">chat.diproses.online</p>
+                        <p class="text-gray-300">Chat Platform - 2 malam</p>
+                    </div>
+                </div>
+                <div class="mt-6 text-center">
+                    <p class="text-xl text-cyan-glow">+ 4 more projects... Total: 10 Online Apps</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- SLIDE 40: OFFLINE PROJECTS -->
+        <section class="slide flex items-center justify-center w-full h-full p-8" data-slide="40">
+            <div class="glass-card rounded-3xl p-12 max-w-6xl shadow-2xl shadow-purple-glow/20">
+                <h2 class="text-4xl font-bold font-orbitron text-neon-blue mb-8">Enterprise-Level Apps</h2>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="bg-gradient-to-r from-neon-blue/20 to-cyan-glow/20 border border-neon-blue/30 rounded-xl p-6">
+                        <h3 class="text-xl font-bold text-neon-blue mb-3">POS System</h3>
+                        <p class="text-base mb-2">Backend: <span class="text-cyan-glow">Elysia.js</span><br/>Frontend: <span class="text-purple-glow">Next.js</span></p>
+                        <p class="text-lg font-bold text-neon-pink mb-2">⏱️ 1 malam</p>
+                        <p class="text-sm text-gray-300">Features: Inventory, sales, reporting</p>
+                    </div>
+                    <div class="bg-gradient-to-r from-purple-glow/20 to-neon-pink/20 border border-purple-glow/30 rounded-xl p-6">
+                        <h3 class="text-xl font-bold text-purple-glow mb-3">Back Office AI</h3>
+                        <p class="text-base mb-2">Full Stack:<br/><span class="text-orange-400">Laravel</span></p>
+                        <p class="text-lg font-bold text-neon-pink mb-2">⏱️ 1 malam</p>
+                        <p class="text-sm text-gray-300">AI-powered automation</p>
+                    </div>
+                    <div class="bg-gradient-to-r from-cyan-glow/20 to-electric-blue/20 border border-cyan-glow/30 rounded-xl p-6">
+                        <h3 class="text-xl font-bold text-cyan-glow mb-3">LMS Course Platform</h3>
+                        <p class="text-base mb-2">Full Stack:<br/><span class="text-orange-400">Laravel</span></p>
+                        <p class="text-lg font-bold text-neon-pink mb-2">⏱️ 7 malam</p>
+                        <p class="text-sm text-gray-300">Complete learning management</p>
+                    </div>
+                </div>
+                <div class="mt-8 text-center">
+                    <p class="text-2xl text-purple-glow">Insight: Complex ≠ Time-consuming (with AI)</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- SLIDE 41: THE NUMBERS -->
+        <section class="slide flex items-center justify-center w-full h-full p-8" data-slide="41">
+            <div class="glass-card rounded-3xl p-12 max-w-6xl shadow-2xl shadow-neon-blue/20">
+                <h2 class="text-4xl font-bold font-orbitron text-neon-blue mb-8">The Numbers Don't Lie</h2>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="bg-gradient-to-br from-red-900/30 to-orange-500/20 border border-red-500/30 rounded-xl p-8">
+                        <h3 class="text-2xl font-bold text-orange-400 mb-4">Traditional Developer</h3>
+                        <ul class="space-y-3 text-lg">
+                            <li>📊 1 project per month (if fast)</li>
+                            <li>📅 12 projects per year</li>
+                            <li>😰 High stress, burnout risk</li>
+                        </ul>
+                    </div>
+                    <div class="bg-gradient-to-br from-neon-blue/30 to-purple-glow/20 border border-neon-blue/50 rounded-xl p-8">
+                        <h3 class="text-2xl font-bold text-neon-blue mb-4">AI-Powered Developer</h3>
+                        <ul class="space-y-3 text-lg">
+                            <li>🚀 1-3 projects per week</li>
+                            <li>📈 50-150 projects per year</li>
+                            <li>😊 Lower stress, higher quality</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mt-8 space-y-4">
+                    <div class="text-center">
+                        <p class="text-2xl text-purple-glow">Portfolio Impact: 10+ live projects = Credibility boost</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-2xl text-neon-blue">Monetization: More projects = More revenue streams</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- SLIDE 42: BAB 8 - RECAP & TASK -->
+        <section class="slide flex items-center justify-center w-full h-full p-8" data-slide="42">
+            <div class="glass-card rounded-3xl p-12 max-w-6xl shadow-2xl shadow-neon-blue/20">
+                <div class="flex items-center gap-4 mb-8">
+                    <div class="text-5xl">🏆</div>
+                    <h2 class="text-4xl font-bold font-orbitron text-neon-blue">BAB 8: Final Challenge</h2>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-8 mb-8">
+                    <div>
+                        <h3 class="text-2xl font-bold text-purple-glow mb-4">🎯 Key Takeaways:</h3>
+                        <ul class="space-y-2 text-lg">
+                            <li>✓ Portfolio = Show, don't tell</li>
+                            <li>✓ AI-powered dev = 10-50x output</li>
+                            <li>✓ Real projects built in days, not months</li>
+                            <li>✓ More projects = More credibility & revenue</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-neon-pink/20 to-purple-glow/20 border-2 border-neon-pink rounded-xl p-6">
+                        <h3 class="text-2xl font-bold text-neon-pink mb-4">🎯 Your FINAL Task #8:</h3>
+                        <div class="space-y-2 text-lg">
+                            <p class="font-semibold text-cyan-glow mb-2">BUILD YOUR SHOWCASE:</p>
+                            <ol class="space-y-2 text-base">
+                                <li>1. Complete Task #1-7 dalam 7 hari</li>
+                                <li>2. Buat portfolio showcase lengkap</li>
+                                <li>3. Include: Journey, tech stack, challenges</li>
+                                <li>4. Add before/after (idea → live app)</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-gradient-to-r from-neon-blue/10 to-cyan-glow/10 border-2 border-neon-blue rounded-xl p-8">
+                    <h3 class="text-2xl font-bold text-neon-blue mb-4 text-center">📤 SUBMIT YOUR WORK:</h3>
+                    <div class="bg-dark-navy/50 rounded-lg p-6">
+                        <p class="text-cyan-glow font-bold mb-3 text-center">Yang harus dikirim via DM:</p>
+                        <div class="grid md:grid-cols-2 gap-x-8 gap-y-2 text-sm text-gray-300">
+                            <p>✓ Screenshot/Video demo app</p>
+                            <p>✓ Live URL</p>
+                            <p>✓ Tech stack used</p>
+                            <p>✓ Development time</p>
+                            <p>✓ Key learnings</p>
+                            <p>✓ Proof semua 8 tasks complete</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- SLIDE 42B: REWARD & SUBMISSION -->
+        <section class="slide flex items-center justify-center w-full h-full p-8" data-slide="42b">
+            <div class="glass-card rounded-3xl p-10 max-w-6xl shadow-2xl shadow-purple-glow/20">
+                <h2 class="text-3xl font-bold font-orbitron text-neon-blue mb-6 text-center">🎁 Claim Your Reward!</h2>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <!-- Left: Reward -->
+                    <div class="bg-gradient-to-r from-neon-pink/30 to-purple-glow/30 border-4 border-neon-pink rounded-2xl p-6 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 text-8xl opacity-20">🎁</div>
+                        <p class="text-2xl font-bold text-neon-pink mb-3 relative z-10 text-center">REWARD SPESIAL!</p>
+                        <div class="relative z-10">
+                            <div class="bg-dark-navy/70 rounded-xl p-5">
+                                <p class="text-xl font-bold text-neon-blue text-center mb-2">
+                                    ⭐ FREE APPS YAYASAN FULL ⭐
+                                </p>
+                                <p class="text-base text-center text-purple-glow mb-3">
+                                    (Next.js 14 - Production Ready!)
+                                </p>
+                                <div class="text-sm text-gray-300 space-y-1">
+                                    <p>✓ Full source code</p>
+                                    <p>✓ Database schema included</p>
+                                    <p>✓ Admin panel ready</p>
+                                    <p>✓ Authentication system</p>
+                                    <p>✓ Deploy guide</p>
+                                </div>
+                            </div>
+                            <p class="text-center text-xs text-cyan-glow mt-3 font-semibold">
+                                *Submit semua 8 tasks untuk claim!
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Right: Contact -->
+                    <div class="bg-gradient-to-r from-neon-blue/20 to-cyan-glow/20 border-4 border-neon-blue rounded-2xl p-6">
+                        <p class="text-2xl font-bold text-neon-blue mb-4 text-center">📨 Kirim via DM</p>
+                        <div class="space-y-3 text-base">
+                            <div class="bg-dark-navy/50 rounded-xl p-3">
+                                <p class="text-purple-glow font-semibold">💼 LinkedIn:</p>
+                                <p class="text-white text-lg">linkedin.com/in/pendtiumpraz</p>
+                            </div>
+                            
+                            <div class="bg-dark-navy/50 rounded-xl p-3">
+                                <p class="text-neon-pink font-semibold">📸 Instagram:</p>
+                                <p class="text-white text-lg">@pendtiumpraz</p>
+                            </div>
+                            
+                            <div class="bg-dark-navy/50 rounded-xl p-3">
+                                <p class="text-yellow-400 font-semibold">☕ Support Me:</p>
+                                <p class="text-white text-lg"><a href="https://trakteer.id/galih-praz" target="_blank" class="hover:text-yellow-300 transition">trakteer.id/galih-praz</a></p>
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-400 mt-4 text-center border-t border-neon-blue/30 pt-3">
+                            *Submit 8 tasks untuk claim reward
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- SLIDE 43: THANK YOU -->
+        <section class="slide flex items-center justify-center w-full h-full p-8" data-slide="43">
+            <div class="text-center z-10">
+                <h1 class="font-orbitron text-6xl md:text-8xl font-bold mb-8 bg-gradient-to-r from-neon-blue via-purple-glow to-neon-pink bg-clip-text text-transparent animate-glow-pulse">
+                    Thank You
+                </h1>
+                <p class="text-3xl md:text-4xl text-cyan-glow mb-12">Q&A Time</p>
+                <p class="text-2xl md:text-3xl text-white font-light">Mari Mulai Membangun!</p>
+                <div class="mt-16 flex items-center justify-center gap-8">
+                    <div class="text-6xl animate-float">🚀</div>
+                    <div class="text-6xl animate-float" style="animation-delay: 0.3s">💻</div>
+                    <div class="text-6xl animate-float" style="animation-delay: 0.6s">✨</div>
+                </div>
+            </div>
+            <div class="absolute inset-0 opacity-10">
+                <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1920&q=80" 
+                     alt="applause" class="w-full h-full object-cover">
+            </div>
+        </section>
+        
+    </div>
+    
+    <!-- Navigation Bar -->
+    <nav class="fixed bottom-0 left-0 right-0 z-50 bg-gradient-to-r from-deep-blue/90 to-dark-navy/90 backdrop-blur-md border-t border-neon-blue/30 p-4">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <button id="prevBtn" class="flex items-center gap-2 px-6 py-3 bg-neon-blue/10 border border-neon-blue/50 rounded-lg hover:bg-neon-blue/20 hover:scale-105 transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed">
+                <span class="text-2xl">◄</span>
+                <span class="hidden md:inline">Previous</span>
+            </button>
+            
+            <div class="flex flex-col items-center gap-2">
+                <div class="text-lg font-orbitron">
+                    <span id="currentPage" class="text-neon-blue text-2xl font-bold">1</span>
+                    <span class="text-gray-500 mx-2">/</span>
+                    <span id="totalPages" class="text-gray-400">52</span>
+                </div>
+                <div class="w-64 h-1 bg-deep-blue rounded-full overflow-hidden">
+                    <div id="progressFill" class="h-full bg-gradient-to-r from-neon-blue to-purple-glow transition-all duration-300" style="width: 2.3%"></div>
+                </div>
+            </div>
+            
+            <button id="nextBtn" class="flex items-center gap-2 px-6 py-3 bg-neon-blue/10 border border-neon-blue/50 rounded-lg hover:bg-neon-blue/20 hover:scale-105 transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed">
+                <span class="hidden md:inline">Next</span>
+                <span class="text-2xl">►</span>
+            </button>
+        </div>
+    </nav>
+    
+    <script src="script.js"></script>
+</body>
+</html>
