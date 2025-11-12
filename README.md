@@ -35,12 +35,13 @@ Webinar/
 ## 🆕 Recent Updates
 
 **v2.0 - Layout Optimization (Latest)**
+- ✅ **Fixed duplicate slide numbers** - Slide 39 duplikat diperbaiki, semua nomor slide sekarang sequential
 - ✅ **2-Column Grid Layout** untuk semua BAB recap slides (1-7)
-- ✅ **Split Slide 42** menjadi 2 slides: Task & Submit (42) + Reward & Contact (42B)
-- ✅ **Removed redundant slide** - Hapus "Join The Movement" (contact info sudah di 42B)
+- ✅ **Split BAB 8 final slides** - Task & Submit (43) + Reward & Contact (44) + Thank You (45)
+- ✅ **Removed redundant slide** - Hapus "Join The Movement" (contact info sudah di Slide 44)
 - ✅ **Compact sizing** - Reduced fonts, paddings, gaps untuk perfect fit tanpa scroll
-- ✅ **Trakteer support link** ditambahkan di Slide 42B & contact sections
-- ✅ **Optimized slide flow** - Net zero change (added 1 slide 42B, removed 1 redundant slide)
+- ✅ **Trakteer support link** ditambahkan di Slide 44 & contact sections
+- ✅ **BAB 8 structure** - Slides 39-45 (7 slides total untuk portfolio & closing)
 - ✅ **No scroll experience** di semua slide - Perfect fit untuk presentasi
 
 ## 🎮 Cara Pakai
@@ -84,7 +85,7 @@ Setiap slide punya URL unik:
 ```
 http://localhost:8000/#slide-1   <- Cover
 http://localhost:8000/#slide-15  <- Slide 15
-http://localhost:8000/#slide-43  <- Thank You
+http://localhost:8000/#slide-45  <- Thank You
 ```
 
 Copy URL dan share ke orang lain!
@@ -159,20 +160,20 @@ Copy URL dan share ke orang lain!
 - Post-Deploy Monitoring
 - **Recap & Task #7: Go Live** (2-column layout: Key Takeaways | Task)
 
-### BAB 8: Portfolio (Slides 40-43)
-- Proof of Concept
-- Online Projects Showcase
-- Offline Projects
-- The Numbers Don't Lie
-- **Recap & Task #8: Final Challenge - Build Your Showcase** (Slide 42)
+### BAB 8: Portfolio (Slides 39-45)
+- Proof of Concept (Slide 39 - Chapter Title)
+- Online Projects Showcase (Slide 40 - Built in Days, Not Months)
+- Offline Projects (Slide 41 - Enterprise-Level Apps)
+- The Numbers Don't Lie (Slide 42)
+- **Recap & Task #8: Final Challenge - Build Your Showcase** (Slide 43)
   - Key Takeaways + Final Task #8 (2-column layout)
   - Submit Your Work checklist
-- **Claim Your Reward!** (Slide 42B - NEW)
+- **Claim Your Reward!** (Slide 44 - NEW)
   - 🎁 **REWARD SPESIAL: FREE APPS YAYASAN FULL (Next.js 14)**
   - 📨 Contact Info: LinkedIn, Instagram, Trakteer
   - Full source code + Database + Admin panel
   - Submit semua 8 tasks untuk claim!
-- **Thank You & Q&A** (Slide 43)
+- **Thank You & Q&A** (Slide 45)
 
 ## 🎯 Tasks for Participants
 
